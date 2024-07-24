@@ -1,0 +1,19 @@
+div.container {
+    position: relative;
+    margin: 0 auto; /* 가운데 배치*/
+    width: 1650px; /* img 하나의 width를 줘야 img 1개씩 배치됨(overflow 사용 예정)*/
+    overflow: hidden;
+}
+div.banner {
+    display: flex;
+    width: 11550px; /* 1650px x 7장의크기*/
+}
+/* 이미지 하나를 감싸는 div 한개 */
+div.banner.div {
+    width: 1650px;
+}
+
+div div.banner.img {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS로 훼이크 애니메이션</title>
+        <!-- 클론코딩에서 FAQ 만들때 많이 쓰는 방법
+        🌟굳이 바뀌지 않는 데이터들 -> CSS로 훼이크 애니메이션 주기
+        회원마다 다른 정보나 자주 변하는 동적 데이터의 경우 -> JS로 애니메이션 주기-> 나중에 받아오기 편함  -->
+        <style>
+            /* 🌟소주제 스타일링 */
+            #menu {
+                width: 100px;
+                height: 0; /* height 0이라 안보임 */
+                opacity: 0; /* 투명도도 0이라 안보임*/
+                background-color: lightgoldenrodyellow; /* height가 없어서 안보임*/
+                transition: all 0.5s; /* 트랜지션: css속성들에 대한 변화를 0.5에 걸쳐서 보여줘라.*/
+            }
+            /* checkbox에 checked되어 있을 때,= 대주제를 클릭했을 때 */
+            /* => a:hover 처럼 chek:cheked는 checked가 됐을때의 선택자임.(조건식처럼) */
+            /* 🌟#check:checked ~ #menu => check 다음부터 쭉~~body태그 끝날때까지 #menu 들어간것에 스타일주기
+                                           (근데, menu가 id라서 중복되는 것 없이 정확히 '소주제'에 스타일 가능!)*/
+            /* #check:checked + #menu => input바로 다음 요소인 label에 스타일 주기 */
+            /* 최종 해석: checked가 되어있는 chekbox 밑에 쭉 봤을 때 menu id가 있으면 스타일링 주는 것! */
+            #check:checked ~ #menu {
+                height: 100px; /* 안보이던 형태가 보이고 */
+                opacity: 100%; /* 투명도 100%로 변화 줌 */
+            }
+
+            /* h1의1만 적용 : div 바로 다음것에 스타일링 div + h1 {
+
+            }
+            h1의 1,2 적용 : div 다음부터 쭉 h1인 것만 스타일링 ,span은 안됨
+            div ~ h1 {
+            } */
+        </style>
+    </head>
+    <body>
+        <!-- <div></div>
+        <h1>1</h1>
+        <span></span>
+        <h1>2</h1> -->
+
+        <!-- 🌟CSS로 클릭 이벤트 주는 방법(이건 연습용임. 이벤트는 JS로 줄 것!) -->
+        <input type="checkbox" id="check" style="display: none" />
+        <!-- label로 묶여있는 '대주제'를 클릭하면 위의 checkbox에 check된다.-->
+        <!-- checkbox에 check가 해제될때 아래의 '소주제'가 보이게 하기 -->
+        <label for="check">
+            <div>대주제</div>
+        </label>
+        <div id="menu">소주제</div>
+    </body>
+</html>

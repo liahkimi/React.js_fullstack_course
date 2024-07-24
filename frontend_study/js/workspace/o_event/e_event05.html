@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>약관 동의</title>
+    </head>
+    <body>
+        <form action="" name="my-form">
+            <div>
+                <!-- 여러 input요소들을 name으로 구분함 (all, term1~3) -->
+                <label>
+                    전체 동의
+                    <input type="checkbox" name="all" class="all" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    서비스 이용약관 동의
+                    <input type="checkbox" name="term1" class="term" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    광고 수신 동의
+                    <input type="checkbox" name="term2" class="term" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    개인 정보 이용약관 동의
+                    <input type="checkbox" name="term3" class="term" />
+                </label>
+            </div>
+        </form>
+    </body>
+    <script>
+        // 😎 문제 :
+        // 1. 전체 동의를 눌렀을 때, 모든 사항이 체크상태로 변한다.
+        // 2. 전체 동의를 해제할 때, 모든 사항이 해제상태로 변한다.
+        // ==> terms NodeList 때문에 NodeList에 filter프로퍼티 선언
+
+        // 3. 모든 사항을 체크했을 때, 전체 동의가 체크상태로 변한다.
+        // 4. 모든 사항 중 하나라도 해제상태일 때, 전체 동의가 해제상태로 변한다.
+        // ==> 전체 체크박스중 checked가 true인 것만 추출
+
+        //terms NodeList 때문에 NodeList에 filter프로퍼티 선언
+        NodeList.prototype.filter = Array.prototype.filter;
+        //name이 all인 input만 가져오기
+        const all = document.querySelector("input.all");
+        //name에 term이 들어가는 요소들 다 가져오기
+        const terms = document.querySelectorAll("input.term");
+
+        // 전체 동의를 클릭했을 때,
+        all.addEventListener("click", (e) => {
+            // => 전체동의 체크박스(all)의 체크 상태
+
+            // 각각의 사항의 체크상태를 전체 동의 상태와 같게 한다.
+            terms.forEach((term) => {
+                term.checked = e.target.checked; //🌟e.target.checked 자체를 상태 값으로 불 줄 알아야 됨! (e.target == all)
+                // term이 체크 상태이면, all도 체크 상태가 되고,
+                // (term.checked = true = e.target.cheked)
+                // term이 체크 해제 상태이면, all도 체크 해제인 상태가 되게 한다.
+                // (term.checked = false = e.target.cheked)
+            });
+        });
+
+        // 전체 체크박스중 checked가 true인 것만 추출
+        terms.forEach((term) => {
+            term.addEventListener("click", (e) => {
+                // 전체 동의 체크박스의 checked는 모든 사항이 체크 상태일 때 true이다.
+                all.checked = terms.filter((term) => term.checked).length === 3;
+                //🌟terms.filter((term) => term.checked).length === 3; 이 true/false인 값으로 봐야한다.
+                // *NodeList인 terms도 유사배열객체이므로 length를 구할 수 있다. (forEach도 선언 없이 가능한 이유)
+                // 체크된 term들 중 전체 길이가 3인 경우에만 all을 체크로 만든다. (all.checked = true)
+                // 아니면 all 체크 해제. (all.checked = false)
+
+                //역시나 NodeList인 term에 filter 프로퍼티가 없으므로, 상단에 선언해주기
+            });
+        });
+    </script>
+</html>

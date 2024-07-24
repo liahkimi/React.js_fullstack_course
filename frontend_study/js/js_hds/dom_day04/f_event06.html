@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>select 태그</title>
+    <style>
+        input::placeholder {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <select name="category">
+        <option value="전체" selected>전체</option>
+        <option value="인기">인기</option>
+        <option value="최신">최신</option>
+        <option value="베스트">베스트</option>
+        <option value="직접입력">직접입력</option>
+    </select>
+    <input type="text" />
+</body>
+<script>
+    // 선택된 옵션이 input태그에 나온다.
+    // 직접입력이 아니라면, input태그에 내용을 작성할 수 없다.
+    // 직접입력일 때, input태그에 내용을 작성할 수 있다.
+    // select 태그 객체의 value 프로퍼티는 선택된 option 태그의 value값이다.
+    const category = document.querySelector("select[name='category']");
+    const input = document.querySelector("input[type=text]");
+
+    // 처음부터 선택된 값으로 세팅하기!
+    input.value = category.value;
+    input.readOnly = true;
+
+    category.addEventListener("change", (e) => {
+        if(e.target.value === "직접입력"){
+            input.value = "";
+            input.placeholder = e.target.value;
+            input.readOnly = false;
+        }else{
+            input.value = e.target.value;
+            input.readOnly = true;
+        }
+    });
+</script>
+</html>

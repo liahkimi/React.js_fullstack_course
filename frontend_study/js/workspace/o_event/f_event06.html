@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>select 태그</title>
+        <style>
+            /* input태그의 placeholder속성에 스타일 줄 때 ::(가상요소)로 찾기 */
+            input::placeholder {
+                color: red;
+            }
+
+            /*
+            주의 ****
+            input {
+                color: red;
+            }
+            => placeholder가 아닌 작성한 내용이 빨강색으로 적용되어 버린다.
+            */
+
+            /* JS로 placeholder 스타일 주는 방법 : */
+            /* input.on::placeholder {
+                color: red;
+            } */
+            /* => JS로  input.classList.add("on");를 필요할 때만 넣어주면 된다. */
+        </style>
+    </head>
+    <body>
+        <select name="category">
+            <option value="전체" selected>전체</option>
+            <option value="인기">인기</option>
+            <option value="최신">최신</option>
+            <option value="베스트">베스트</option>
+            <option value="직접입력">직접입력</option>
+        </select>
+        <input type="text" />
+    </body>
+    <script>
+        // 😎 문제 :
+        // 1. 선택된 옵션이 input태그에 나온다.
+        // 2. 직접입력이 아니라면, input태그에 내용을 작성할 수 없다.
+        // 3. 직접입력일 때, input태그에 내용을 작성할 수 있다.
+        // 4. select 태그 객체의 value 프로퍼티는 선택된 option 태그의 value값이다.
+
+        // name이 category인 select 가져오기
+        const category = document.querySelector("select[name='category']");
+        // console.log(category); //category의 html구조 그대로 콘솔에 보여짐 (테스트)
+        // 선택된 옵션 내용이 보여질 input 가져오기
+        const input = document.querySelector("input[type=text]");
+
+        // 처음부터 선택된 값으로 세팅하기! => 옵션:전체(selected)
+        // 🌟html에 selected해둔 것은 처음부터 select태그의 value가 selected한 옵션의 value값이 된다.
+        input.value = category.value;
+        // 처음부터 input에 작성 못하게 하기 => readonly속성
+        input.readOnly = true;
+
+        // select 태그에 change 이벤트 주기
+        category.addEventListener("change", (e) => {
+            // console.log(e.target.value); //value값인 전체,인기,최신,베스트 등이 콘솔창에 출력된다. (테스트)
+            // 🌟select의 value값을 가져오는 방법 생각하기
+            // => 매번 option을 선택할 때마다 그 option의 value값이 select의 value가 되고
+            // => 그 때마다 change라는 이벤트가 발생함
+            input.value = e.target.value; //선택한 옵션의 내용이 input에 잘 띄워짐 (테스트)
+            // 하지만, 직접입력이 아니면, 작성 못하게 해야 하므로 readonly 속성 input에 넣어주기
+            // input.readOnly = true;
+
+            // 옵션이 직접입력인지
+            if (e.target.value === "직접입력") {
+                input.value = ""; //기존 입력 내용(value값)을 초기화해줘야 새로운 값을 사용자가 입력할 수 있다.
+                input.placeholder = e.target.value; //선택된 옵션의 값을 입력필드의 placeholder로 지정함
+                //placeholder 쓰는 이유 : input.value = e.target.value 하게되면 '직접입력ㅇㄹㄴㅇㄹ'작성한 내용이 이어져서 나옴
+                input.readOnly = false; //직접입력일 때, input태그에 작성할 수 있게
+                // // input.classList.add("on"); //(테스트)
+            } else {
+                // 옵션이 직접입력이 아닌지
+                // input.value = ""; //초기화 불필요(사용자 입력을 막아뒀기때문)
+                input.value = e.target.value; //선택된 옵션의 값으로 입력필드의 값을 설정함
+                input.readOnly = true;
+            }
+        });
+    </script>
+</html>

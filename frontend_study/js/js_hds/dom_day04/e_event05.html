@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약관 동의</title>
+</head>
+<body>
+    <form action="" name="my-form">
+        <div>
+            <label>
+                전체 동의
+                <input type="checkbox" name="all" class="all" />
+            </label>
+        </div>
+        <div>
+            <label>
+                서비스 이용약관 동의
+                <input type="checkbox" name="term1" class="term" />
+            </label>
+        </div>
+        <div>
+            <label>
+                광고 수신 동의
+                <input type="checkbox" name="term2" class="term" />
+            </label>
+        </div>
+        <div>
+            <label>
+                개인 정보 이용약관 동의
+                <input type="checkbox" name="term3" class="term" />
+            </label>
+        </div>
+    </form>
+</body>
+<script>
+    NodeList.prototype.filter = Array.prototype.filter;
+    const all = document.querySelector("input.all");
+    const terms = document.querySelectorAll("input.term");
+
+    // 전체 동의를 눌렀을 때, 모든 사항이 체크상태로 변한다.
+    // 전체 동의를 해제할 때, 모든 사항이 해제상태로 변한다.
+
+    // 전체 동의를 클릭했을 때,
+    all.addEventListener("click", (e) => {
+        // 각각의 사항의 체크상태를 전체 동의 상태와 같게 한다.
+        terms.forEach((term) => {
+            term.checked = e.target.checked;
+        });
+    });
+
+
+    // 모든 사항을 체크했을 때, 전체 동의가 체크상태로 변한다.
+    // 모든 사항 중 하나라도 해제상태일 때, 전체 동의가 해제상태로 변한다.
+    // 전체 체크박스중 checked가 true인 것만 추출
+    terms.forEach((term) => {
+        term.addEventListener("click", (e) => {
+            // 전체 동의 체크박스의 checked는 모든 사항이 체크 상태일 때 true이다.
+            all.checked = terms.filter((term) => term.checked).length === 3;
+        });
+    });
+</script>
+</html>

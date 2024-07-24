@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS 선택자로 선택</title>
+    </head>
+    <body>
+        <h1>CSS 선택자로 선택</h1>
+        <p>갖고 싶은 위시 리스트</p>
+        <ul>
+            <li>아파트</li>
+            <li>페라리</li>
+            <li>건물</li>
+            <li>맥북</li>
+            <li>아이패드</li>
+        </ul>
+    </body>
+    <script>
+        const items = document.querySelectorAll("ul li");
+        // 내용에 "아"가 포함되어 있으면, 글자 색상을 pink로 변경
+        items.forEach((item) => {
+            if (item.innerText.includes("아")) {
+                item.style.color = "pink";
+            }
+        });
+    </script>
+</html>

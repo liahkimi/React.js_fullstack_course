@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="q_banner.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="arrow right">&lt;</div>
+            <div class="banner">
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/46efd25d-695c-4294-8b2f-3595173828d8.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/cc976d09-bc1a-47d2-a3a9-7066ff2d060a.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/f8123520-7557-4feb-ab4b-7b067bc35c41.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/2a6a0165-0680-413e-af79-cf3137c1296f.png"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/ad317927-b91a-4f31-af7b-fe40290fbed1.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/2d7f852e-ebe5-4e6e-a054-b3f706581d3b.jpg"
+                    />
+                </div>
+            </div>
+            <div class="arrow right">&gt;</div>
+        </div>
+        <!-- 아래측 배너 -->
+        <!-- <div class="discountItems_container">
+            <div class="discountItems_banner">
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/59ad51a1-edfe-4a9d-b00a-16ba42295f88.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/84ab6c67-888e-4f02-81dc-d1f736f9f7dd.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/60316773-c1c3-4734-a64e-5506a43757e8.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/4d9591da-48f2-4667-9458-7d23307a0e0e.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/8abffc1b-d33e-4267-9a44-59907d018f66.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/5432d5eb-206a-4233-b96f-3e79f1c2143e.jpeg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/658794ac-c6b3-4e32-a2d9-f961cc1933c2.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/cc55ebb3-2880-4231-aff4-cd940ce5fa85.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/b121887a-d1ac-4207-8295-167815055931.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/44204eb0-20bb-48f4-84e9-ae6b247c6027.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/3b0d1717-45fd-4527-8a72-23c8986beaa3.jpg"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://product-image.kurly.com/cdn-cgi/image/fit=crop,width=360,height=468,quality=85/product/image/1274e36b-aeb8-4482-a87c-a5f7c6a91b7e.jpg"
+                    />
+                </div>
+            </div>
+        </div> -->
+    </body>
+    <script>
+        // 무한 슬라이드
+
+        // 마지막 배너 뒤에 생길 div 생성하는 변수
+        const lastBanner = document.createElement("div");
+        // 배너 변수
+        const banner = document.querySelector("div.banner");
+        // img의 width를 담은 변수
+        const imgWidth = document.querySelector("img").clientWidth;
+        // 넘어갈때 마다 카운팅하는 카운팅 변수
+        let count = 0;
+
+        // 마지막 배너 뒤에 생길 div안에 img 삽입
+        lastBanner.innerHTML = `<img src="https://product-image.kurly.com/cdn-cgi/image/width=1900,height=370,quality=85/banner/main/pc/img/46efd25d-695c-4294-8b2f-3595173828d8.jpg">`;
+        // banner요소 내부의 자식요소들 중 가장 마지막 위치에 lastbanner 삽입
+        banner.appendChild(lastBanner);
+
+        // setInterval과 setTimeout의 차이
+        // setInterval:일정 시간 간격으로 코드를 반복해서 실행함
+        // setTimeout:일정 시간이 지난 후에 한 번만 코드를 실행함.
+
+        // 2초마다 배너 안 img가 바뀜
+        setInterval(() => {
+            //첫번째 img가 왼쪽으로 밀린 후부터 카운팅 들어감
+            // => count:1일때, 두번째 img가 보이는 것!
+            count++;
+            // transition: 특정 스타일 속성의 변경이 부드럽게 이루어지도록 한다.
+            // `transform 0.5s`: transform이 변형 될때 0.5초 동안 부드럽게 변경
+            banner.style.transition = `transform 0.5s`;
+            // transfrom: banner 요소의 변형(transform)을 설정
+            // translate() 함수: 요소의 위치를 이동시키는데 사용되며
+            // `translate(${-1650 * count}px)` : (-)는 왼쪽 가로로 이동
+            banner.style.transform = `translate(${-1900 * count}px)`;
+
+            console.log(count); //테스트
+
+            // count가 6일 때 = 마지막 img의 다음일 때,
+            if (count === 6) {
+                //  마지막 img가 넘어가며 0.5초가 지난 후에 한번만 실행할 코드 (0초 안에 첫 img위치로 복귀)
+                setTimeout(() => {
+                    // 마지막 img의 다음일때, 다시 맨 처음 위치인 0px로 돌아와야 함.
+                    // 그때 걸리는 시간은 0초여야 마치 무한 슬라이드 한 것 처럼 보임.
+                    banner.style.transition = `transform 0s`;
+                    banner.style.transform = `translate(0px)`;
+                }, 500);
+                //  img의 위치가 처음으로 왔으니 카운팅도 다시 0부터
+                count = 0;
+            }
+        }, 2000);
+    </script>
+</html>

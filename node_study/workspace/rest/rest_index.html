@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API</title>
+</head>
+<body>
+    <h1 id="result"></h1>
+</body>
+<script>
+    fetch("http://localhost:8000/api/user/1")
+    .then((response) => response.json())
+    .then((user) => {
+        console.log(user);
+        return user;
+    })
+    .then((user) => document.getElementById("result").innerText = user.name)
+    .catch(console.error)
+</script>
+</html>

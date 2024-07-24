@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>슬라이드 배너</title>
+        <link rel="stylesheet" href="banner.css" />
+    </head>
+    <body>
+        <section class="container">
+            <div class="arrow left">&lt;</div>
+            <div class="banner">
+                <div>
+                    <img src="images/001.png" />
+                </div>
+                <div>
+                    <img src="images/002.png" />
+                </div>
+                <div>
+                    <img src="images/003.png" />
+                </div>
+                <div>
+                    <img src="images/004.png" />
+                </div>
+                <div>
+                    <img src="images/005.png" />
+                </div>
+                <div>
+                    <img src="images/006.png" />
+                </div>
+            </div>
+            <div class="arrow right">&gt;</div>
+            <div class="buttons">
+                <button></button>
+                <button></button>
+                <button></button>
+                <button></button>
+                <button></button>
+                <button></button>
+            </div>
+        </section>
+    </body>
+    <script>
+        // const div = document.querySelector("div.banner");
+        // let count = 0;
+        // setInterval(() => {
+        //     count ++;
+        //     count === 6 && (count = 0);
+        //     div.style.transition = `transform 0.5s`;
+        //     div.style.transform = `translate(${-2000 * count}px)`;
+        // }, 2000);
+
+        // 무한 슬라이드
+        const firstBanner = document.createElement("div");
+        const lastBanner = document.createElement("div");
+        const banner = document.querySelector("div.banner");
+        const buttons = document.querySelectorAll("div.buttons button");
+
+        let count = 0;
+        let temp = buttons[0];
+        temp.style.backgroundColor = "black";
+
+        lastBanner.innerHTML = `<img src="images/001.png">`;
+        banner.appendChild(lastBanner);
+
+        firstBanner.innerHTML = `<img src="images/006.png">`;
+        banner.insertBefore(
+            firstBanner,
+            document.querySelector("div.banner div")
+        );
+        banner.style.transform = `translate(-2000px)`;
+
+        const autoSlide = () => {
+            count++;
+            banner.style.transition = `transform 0.5s`;
+            banner.style.transform = `translate(${-2000 * (count + 1)}px)`;
+
+            if (count === 6) {
+                setTimeout(() => {
+                    banner.style.transition = `transform 0s`;
+                    banner.style.transform = `translate(-2000px)`;
+                }, 500);
+                count = 0;
+            }
+            temp.style.backgroundColor = "#fff";
+            buttons[count].style.background = "black";
+            temp = buttons[count];
+        };
+
+        let id = setInterval(autoSlide, 2000);
+
+        // 이전, 다음 버튼
+        const arrows = document.querySelectorAll("div.arrow");
+
+        let arrowButtonCheck = true;
+        arrows.forEach((arrow) => {
+            arrow.addEventListener("click", (e) => {
+                if (arrowButtonCheck) {
+                    arrowButtonCheck = false;
+                    clearInterval(id);
+                    let arrowType = arrow.classList[1];
+                    if (arrowType === "left") {
+                        count--;
+                        banner.style.transition = `transform 0.5s`;
+                        banner.style.transform = `translate(${
+                            -2000 * (count + 1)
+                        }px)`;
+
+                        if (count === -1) {
+                            setTimeout(() => {
+                                banner.style.transition = `transform 0s`;
+                                banner.style.transform = `translate(-12000px)`;
+                            }, 500);
+                            count = 5;
+                        }
+                    } else {
+                        count++;
+                        banner.style.transition = `transform 0.5s`;
+                        banner.style.transform = `translate(${
+                            -2000 * (count + 1)
+                        }px)`;
+
+                        if (count === 6) {
+                            setTimeout(() => {
+                                banner.style.transition = `transform 0s`;
+                                banner.style.transform = `translate(-2000px)`;
+                            }, 500);
+                            count = 0;
+                        }
+                    }
+
+                    temp.style.backgroundColor = "#fff";
+                    buttons[count].style.background = "black";
+                    temp = buttons[count];
+                    
+                    id = setInterval(autoSlide, 2000);
+
+                    setTimeout(() => {
+                        arrowButtonCheck = true;
+                    }, 500);
+                }
+            });
+        });
+
+        // 버튼
+        let buttonCheck = true;
+        buttons.forEach((button, i) => {
+            button.addEventListener("click", (e) => {
+                if (buttonCheck) {
+                    buttonCheck = false;
+                    clearInterval(id);
+
+                    count = i;
+                    temp.style.backgroundColor = "#fff";
+                    buttons[count].style.background = "black";
+
+                    banner.style.transition = "transform 0.5s";
+                    banner.style.transform = `translate(${-2000 * (count + 1)}px)`;
+                    temp = buttons[count];
+
+                    id = setInterval(autoSlide, 2000);
+
+                    setTimeout(() => {
+                        buttonCheck = true;
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</html>

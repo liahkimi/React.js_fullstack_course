@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿼리스트링</title>
+</head>
+<body>
+    <!-- 입력 후 전송버튼 누르면 아래 action의 value값 주소로 페이지가 이동되어 응답된다. -->
+    <!-- method="get"은 uri에 유저가 입력한 값이 노출되므로 노출되어도 되는 정보만 띄워야한다. -->
+    <!-- method="post"는 보통 개인정보를 보낼때 쓰이므로, uri에도 안보이고, 개발자모드의 payload에서 정보 볼 수 있음 -->
+    <form action="http://localhost:8000/new" method="get">
+        <div>
+            <p>new1 상품</p>
+            <input type="text" name="new1" id="new1">
+        </div>
+        <div>
+            <p>new2 상품</p>
+            <input type="text" name="new1" id="new1">
+        </div>
+        <button type="submit">전송</button>
+    </form>
+
+</body>
+</html>

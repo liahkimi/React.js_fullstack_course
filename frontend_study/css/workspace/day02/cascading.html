@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cascading.css">
+    <title>스타일 우선순위</title>
+    <style>
+        #banana {
+            font-size: 12px;
+        }
+
+        /*
+            가까운 곳에 위치한 .apple은
+            더 멀리있는 div.apple보다
+            우선순위가 높아보이지만,
+            div.apple이 더 구체적이기 때문에,
+            div.apple에 설정한 핑크색이 적용된다.
+         */
+        .apple {
+            color: red !important;
+            font-size: 30px;
+        }
+
+        .banana {
+            color: green;
+            /* color: green !important; */
+        }
+    </style>
+</head>
+<body>
+    <p id="banana" class="apple banana" style="color: brown !important;">바나나</p>
+    <div class="apple">사과</div>
+</body>
+</html>

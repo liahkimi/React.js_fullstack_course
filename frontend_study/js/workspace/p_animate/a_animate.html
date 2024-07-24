@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JS로 찐 애니메이션</title>
+        <style>
+            /* '소주제' 처음엔 안보이도록 height, opacity 빼고 스타일 주기 */
+            #menu {
+                width: 100px;
+                height: 0;
+                opacity: 0;
+                background-color: lightgoldenrodyellow;
+                transition: all 0.5s;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 앞서 배운 toggle과 달리 checkbox의 check상태로 구분하는 조건문 씀!  -->
+        <!-- ❓그럼 toggle로 이거 만들어볼까? -->
+        <input type="checkbox" id="check" style="display: none" />
+        <label for="check">
+            <div>대주제</div>
+        </label>
+        <div id="menu">소주제</div>
+    </body>
+    <script>
+        const checkbox = document.querySelector("#check");
+        const menu = document.getElementById("menu");
+
+        // input태그에 change가 발생하면
+        checkbox.addEventListener("change", (e) => {
+            // '대주제'가 체크 되었을때
+
+            // 🌟앞서 배운 toggle과 달리 checkbox의 check상태로 구분하는 조건문 씀!
+            if (e.target.checked) {
+                // '소주제' 보여주기 ('소주제'div태그 height, opacity 100으로 만들어주기 )
+                // 🌟animate 속성 : animate( style{k:'v'} , option{}) <= style객체와 animation-option객체 2개를  전달함
+                menu.animate(
+                    {
+                        // style
+                        height: "100px",
+                        opacity: "100%",
+                    },
+                    {
+                        // animation-option (css의 transition역할과 비슷한듯..!)
+                        duration: 200, // animation 지속 시간을 나타내는 옵션 (200밀리초 = 0.2초)
+                        fill: "forwards", // animation이 완료된 후, animation이 끝난 상태를 유지하도록 지정하는 옵션
+                    }
+                );
+            } else {
+                //'대주제'가 체크 해제되었을 때
+                menu.animate(
+                    // '소주제' 안보여주기
+                    {
+                        // style
+                        height: "0",
+                        opacity: "0",
+                    },
+                    {
+                        // animation-option
+                        duration: 200,
+                        fill: "forwards", //펼쳐진 상태인 키프레임 유지되게 하기 (주석처리하면, 클릭과 동시에 사라짐)
+                    }
+                );
+            }
+        });
+    </script>
+</html>

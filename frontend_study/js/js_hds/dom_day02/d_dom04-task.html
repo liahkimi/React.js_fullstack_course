@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 선택자로 선택 실습</title>
+</head>
+<body>
+    <h1>CSS 선택자로 선택 실습</h1>
+    <p>명함</p>
+    <ul>
+        <li class="check">짱구</li>
+        <li>훈이</li>
+        <li>유리</li>
+        <li class="check">맹구</li>
+        <li>철수</li>
+    </ul>
+</body>
+<script>
+    // 짱구와 맹구만 이름 뒤에 "님"을 붙여준다.
+    const children = document.querySelectorAll("ul li");
+    children.forEach((child) => {
+        if(child.classList[0] == "check"){
+            child.innerText += "님"
+        }else{
+            // 나머지 인원은 글자 크기를 30px로 키워준다.
+            child.style.fontSize = "30px";
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>이벤트 위임 실습</title>
+        <style>
+            /* div 부모요소 스타일링 */
+            #container {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 600px;
+                height: 600px;
+                background-color: gainsboro;
+                margin: 0 auto;
+            }
+            /* box1과 box2 자식요소 스타일링 */
+            div.box1,
+            div.box2 {
+                width: 200px;
+                height: 200px;
+                background-color: lightgray;
+                text-align: center;
+                line-height: 200px;
+            }
+            /* box1에만 on클래스가 붙는다면, */
+            div.box1.on {
+                background-color: pink;
+            }
+            /* box2에만 on클래스가 붙는다면, */
+            div.box2.on {
+                background-color: palevioletred;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container"></div>
+    </body>
+    <script>
+        // 😎문제 :
+        // 1. 박스1을 눌렀을 때, toggle()을 사용해서 배경색을 변경 혹은 원래 배경색으로 변경을 진행한다.
+        // 2. 다른 것을 눌렀을 때에는 아무런 변화가 없어야 한다.
+
+        // 부모요소 container div 가져오기
+        const container = document.getElementById("container");
+        // js로 container 안에 자식요소 box1, 2를  집어 넣기
+        container.innerHTML = `
+            <div class="box1">박스1</div>
+            <div class="box2">박스2</div>
+        `;
+        // 부모요소 container에 이벤트 달기
+        container.addEventListener("click", (e) => {
+            if (
+                // 유지보수하기 쉬우려면 className ===로 요소 찾기보다
+                // classList.contains()로 찾는걸 습관화하자.
+
+                // 🌟이벤트객체의 클래스가 box1이거나 box2일 경우 (OR연산자)
+                e.target.classList.contains("box1") ||
+                e.target.classList.contains("box2")
+            ) {
+                e.target.classList.toggle("on");
+            }
+        });
+    </script>
+</html>

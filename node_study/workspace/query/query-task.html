@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿼리스트링 실습</title>
+</head>
+<body>
+    <form action="http://localhost:8000/user" method="get">
+        <div>
+            <p>유저정보</p>
+            <input type="text" name="name" id="name">
+        </div>
+        <button type="submit">전송</button>
+    </form>
+    <form action="http://localhost:8000/product" method="get">
+        <div>
+            <p>상품정보</p>
+            <input type="text" name="p1" id="p1">
+            <input type="text" name="p2" id="p2">
+            <input type="text" name="p3" id="p3">
+        </div>
+        <button type="submit">전송</button>
+    </form>
+</body>
+</html>

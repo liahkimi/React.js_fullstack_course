@@ -1,0 +1,133 @@
+<!-- 
+    [다른 개발자가 개발한 코드를  갖다 쓰는 것들]
+    - 라이브러리: 기존 프로젝트의 일부분으로 활용할 수 있는 '작은' 단위(편의성, 유틸)
+    - API(Application Programming Interface) : 기존 프로젝트의 많은 부분으로 활용할 수 있는 '묶음' 단위(라이브러리들의 묶음)
+    - 프레임워크(Framework): 프레임워크에서 원하는  API를 골라서 적용 후 작업  진행 가능(API들의 묶음)
+      * 구분하기: 지수로그 라이브러리, 지도에 핀을 꽂아주는 라이브러리, 
+                  카카오맵api, 문자발송api, 번역api, SNS로그인api(oAuth), 
+                  NEXT.js(프엔 프레임워크-react 라이브러리/api가 내장됨), NEST.js(백엔드 프레임워크)
+ -->
+
+<!-- https://apis.map.kakao.com/web/guide/ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>카카오맵 API</title>
+    </head>
+    <body>
+        <!-- <p style="margin-top: -12px">
+            <em class="link">
+                <a
+                    href="javascript:void(0);"
+                    onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')"
+                >
+                </a>
+            </em>
+        </p> -->
+        <div id="map" style="width: 500px; height: 400px"></div>
+    </body>
+    <!-- 카카오맵 API 사용법 -->
+    <!-- api 갖다 쓰는 방식: <script src="ip:port/kakao/map/v2"></script> -->
+    <!-- 오픈API는 어떤 버전의 JS를 쓸지 모르는 사람들이 사용하므로, 가장 하위버전의 JS문법을 쓴다.
+         ex1. <script type="text/javascript"></script>
+         ex2. var 변수 사용
+          => 가져와서 고쳐 쓰면 된다. => 배포 
+        -->
+    <!-- ? <- GET 방식 쿼리스트링(a/b?title=안녕): 데이터가 header에 담아가는게 아닌, 경로(url)에 보이면서 간다.
+         & : 경로에 새로운 key&value를 연결해서 보내는 법-->
+    <!-- GET방식으로 데이터 보내면, 개발자모드>Network>Payload>데이터확인가능
+         GET방식 외 POST방식같은 경우 데이터 보내면, 개발자모드>Network>Headers에서 데이터확인가능 -->
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e2d7693de1114bdff44374bf351ee591&libraries=services"></script>
+    <!-- 혹시나, 도메인 문제 생길 경우
+     카카오 디벨로퍼 사이트 > 어플리케이션 > 사이트 도메인 : http://192.168.30.14:52652 일때
+     http://192.168.30.14 는 그대로인데, port번호가 바뀔경우 그때마다 고쳐서 도메인 등록하기..!
+    **집에서 노트북으로 했을 경우, 네트워크가 바뀔테니 새로 도메인 등록 하고 테스트 해볼 것!-->
+    <script>
+        // API를 넣어 업데이트할 떄, 원본 코드는 절대 건들지 말것!!
+        //지도를 표시할 div
+        let container = document.getElementById("map");
+        let option = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(37.4840476212544, 127.017348668302), //지도의 중심좌표.(경도,위도)
+            //우리집 위도La: 127.017348668302 경도Ma: 37.4840476212544 //카카오 제주 : 33.450701, 126.570667
+            // new kakao.maps.LatLng()는 인스턴스를 만들며, 생성자함수의 프로토타입에 정의된 메서드와 속성을 상속받음.
+            level: 3, //지도의 레벨(확대, 축소 정도)
+        };
+        // 지도를 생성합니다.(지도 생성 및 객체 리턴)
+        let map = new kakao.maps.Map(container, option);
+
+        // 마커가 표시될 위치입니다
+        let markerPosition = new kakao.maps.LatLng(
+            37.4840476212544,
+            127.017348668302
+        );
+
+        // 마커를 생성합니다
+        let marker = new kakao.maps.Marker({
+            position: markerPosition,
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+
+        // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+        //marker.setMap(null);
+
+        //======================================================================
+        // 주로소 장소 표시하기 library
+        let mapContainer = document.getElementById("map"), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(
+                    127.017348668302,
+                    37.4840476212544
+                ), // 지도의 중심좌표
+                level: 3, // 지도의 확대 레벨
+            };
+
+        // 지도를 생성합니다
+        // let map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 주소-좌표 변환 객체를 생성합니다
+        let geocoder = new kakao.maps.services.Geocoder(); // 실시간 위치(오차범위 큼, http 불가)
+        // 다음 프로젝트시, Geocoder()로 위치정보 표시하기보단,
+        // 회원가입시 유저가 알려준 주소를 위치의 위도경도를 직접 넣어줄 것!
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(
+            "서울특별시 서초구 서초중앙로 18",
+            function (result, status) {
+                // 정상적으로 검색이 완료됐으면
+                if (status === kakao.maps.services.Status.OK) {
+                    // 검색결과(result)의 위도 경도를 coords 변수에 저장합니다.
+                    let coords = new kakao.maps.LatLng(
+                        result[0].y,
+                        result[0].x
+                    );
+                    console.log(result); // 검색한 주소에 대한 array
+                    console.log(result[0]); //array의 첫번째 key인 address값
+
+                    // 검색한 주소의 위도 경도 디버깅
+                    console.log(coords); //위도La: 127.017348668302 경도Ma: 37.4840476212544
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    let marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords,
+                    });
+
+                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                    let infowindow = new kakao.maps.InfoWindow({
+                        content:
+                            '<div style="width:150px;text-align:center;padding:6px 0;">우리 집</div>',
+                    });
+                    infowindow.open(map, marker);
+
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                }
+            }
+        );
+    </script>
+</html>

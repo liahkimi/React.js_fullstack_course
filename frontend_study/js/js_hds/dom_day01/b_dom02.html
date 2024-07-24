@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>name 속성 선택</title>
+</head>
+
+<body>
+    <form action="" name="join">
+        <div>
+            <input type="text" name="user-id" placeholder="아이디">
+        </div>
+        <div>
+            <input type="password" name="user-password" placeholder="비밀번호">
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" name="language" value="c"> C언어
+            </label>
+            <label>
+                <input type="checkbox" name="language" value="java"> JAVA
+            </label>
+            <label>
+                <input type="checkbox" name="language" value="python"> 파이썬
+            </label>
+        </div>
+    </form>
+</body>
+<script>
+    // form태그의 name에 작성한 이름으로 객체가 자동 생성된다.
+    // document.{form태그의 name값}으로 form객체를 가져온다.
+
+    // form태그 안에 있는 name도 form객체의 프로퍼티명이다.
+    // form태그 안에 있는 input태그 중 name이 'user-id'인 객체를 가져올 때 아래와 같이 작성한다.
+    // document.join['user-id']
+
+    // DOM객체를 통해 getElementsByName()을 사용할 수 있으나,
+    // form태그의 input태그를 가져올 때에는 위의 방법이 더 편하다.
+    // document.getElementsByName('user-id').forEach((input) => {
+    //     console.log(input);
+    // })
+
+    // 유효성 검사
+    // false값: "", undefined, null, 0
+    if (!document.join['user-id'].value) {
+        console.log("아이디를 작성해주세요.");
+    }
+
+    if (!document.join['user-password'].value) {
+        console.log("비밀번호를 작성해주세요.");
+    }
+
+    document.getElementsByName("language").forEach((checkbox) => {
+        checkbox.checked = true;
+    });
+
+</script>
+
+</html>

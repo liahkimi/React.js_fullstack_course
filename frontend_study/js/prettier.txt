@@ -1,0 +1,7 @@
+prettier 적용 안될때
+1> settings > format on save 체크되어있는지 보기
+2> default formatter : prettier 로 설정되어있는지 보기
+3> 명령 팔레트 이용
+Ctrl + <Shift> + P 입력
+format docment 입력하면 나오는 리스트 중 문서 서식 프로그램... (Format Document...) 선택
+기본 포맷터 구성... (Configure Default Formatter...) 선택

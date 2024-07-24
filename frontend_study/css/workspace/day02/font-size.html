@@ -1,0 +1,109 @@
+<!-- 
+    font-size(폰트 크기, 글자 크기)
+
+        크기 단위(기본 크기: 16px)
+
+        1. 배수 단위(em)
+            부모 태그의 크기에 상대적으로 설정할 수 있다.
+            1.0은 100%, 1.5는 150%를 의미한다.
+            만약, 부모 태그의 글자 크기가 16px이라면,
+            자식 태그에서 1.5em을 주었을 때 글자 크기는 24px이다.
+
+        2. 배수 단위(rem)
+            부모에 상관없이 무조건 기본 크기에 적용되는 방식이다.
+            만약 2rem을 작성하면, 32px이다.
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폰트 크기</title>
+    <style>
+        body, p {text-align: center;}
+        body {
+            font-size: 1.5em; /* 24px */
+            color: green;
+        }
+
+        .body-p1 {
+            font-size: 1.5em; /* 36px */
+        }
+
+        .body-p2 {
+            font-size: 1.5rem; /* 24px */
+        }
+
+        div.div1 {
+            font-size: 1.5em; /* 36px */
+        }
+
+        .div1-p1 {
+            font-size: 1.5em; /* 54px */
+        }
+
+        .div1-p2 {
+            font-size: 2rem; /* 32px */
+        }
+
+        div.div2 {
+            font-size: 1.5em; /* 54px */
+        }
+
+        .div2-p1 {
+            font-size: 1.5em; /* 81px */
+        }
+
+        .div2-p2 {
+            font-size: 0.5em; /* 27px */
+        }
+
+        div.div3 {
+            font-size: 30px;
+            color: blue;
+        }
+
+        .div3-p1 {
+            font-size: 1.5em; /* 45px */
+        }
+
+        .div3-p2 {
+            font-size: 200%; /* 60px */
+        }
+
+        div.div4 {
+            font-size: 2rem; /* 32px */
+        }
+
+        .div4-p1 {
+            font-size: 2rem; /* 32px; */
+        }
+
+        .div4-p2 {
+            font-size: 3.5rem; /* 56px */
+        }
+    </style>
+</head>
+<body>
+    Hi, CSS!
+	<p class="body-p1">Hi, CSS!</p>
+	<p class="body-p2">Hi, CSS!</p>
+	<div class="div1">
+		<p class="div1-p1">Hi, CSS!</p>
+		<p class="div1-p2">Hi, CSS!</p>
+		<div class="div2">
+			<p class="div2-p1">Hi, CSS!</p>
+			<p class="div2-p2">Hi, CSS!</p>
+			<div class="div3">
+				<p class="div3-p1">Hi, CSS!</p>
+				<p class="div3-p2">Hi, CSS!</p>
+			</div>
+			<div class="div4">
+				<p class="div4-p1">Hi, CSS!</p>
+				<p class="div4-p2">Hi, CSS!</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

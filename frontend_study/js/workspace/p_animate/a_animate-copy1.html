@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JS로 애니메이션 -toggle ver.</title>
+        <style>
+            /* 처음에 소주제 안보이게 하기 */
+            div.child2 {
+                width: 100px;
+                height: 0;
+                opacity: 0;
+            }
+            /* 토글로 on 붙였을 때 소주제 보이게 하기 */
+            div.child2.on {
+                width: 100px;
+                height: 100px;
+                opacity: 100%;
+                background-color: lightgoldenrodyellow;
+                transition: all 0.5s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" style="height: 200px; background-color: aqua"></div>
+    </body>
+    <script>
+        //부모요소 가져오기
+        const container = document.getElementById("container");
+        //JS로 자식요소 추가하기
+        container.innerHTML = `<div class='child1'>대주제</div>`;
+        container.innerHTML += `<div class='child2' >소주제</div>`;
+
+        container.addEventListener("click", (e) => {
+            // console.log(e.target); //테스트
+
+            //div(부모)중에 child1(자식)인 요소를 클릭했을때의 이벤트 만들기
+            if (e.target.classList.contains("child1")) {
+                // alert("대주제 클릭했다!"); //테스트
+
+                //소주제 보이게 하기 -toggle사용 (toggle메서드는 classList객체의 메서드다.)
+                document.querySelector(".child2").classList.toggle("on");
+            }
+        });
+    </script>
+</html>

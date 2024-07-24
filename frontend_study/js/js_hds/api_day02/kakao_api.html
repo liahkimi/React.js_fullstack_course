@@ -1,0 +1,76 @@
+<!-- 
+    라이브러리: 기존 프로젝트에 일부분으로 활용할 수 있는 작은 단위(편의성, 유틸)
+    API(Application Programming Interface): 기존 프로젝트에 많은 부분으로 활용할 수 있는 묶음 단위
+    프레임워크(Framework): 프레임워크에서 원하는 API를 골라서 적용 후 작업 진행 가능
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>카카오맵 API</title>
+    </head>
+    <body>
+        <div id="map" style="width: 500px; height: 400px"></div>
+    </body>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=dc37ea90df6ee120d4644b3399bb97a0&libraries=services"></script>
+    <script>
+        let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
+        let options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3, //지도의 레벨(확대, 축소 정도)
+        };
+
+        let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+        // // 마커가 표시될 위치입니다
+        // let markerPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+
+        // // 마커를 생성합니다
+        // let marker = new kakao.maps.Marker({
+        //     position: markerPosition,
+        // });
+
+        // marker.setMap(map);
+
+        // 주소-좌표 변환 객체를 생성합니다
+        let geocoder = new kakao.maps.services.Geocoder();
+        let addresses = [
+                "경기도 남양주시 화도읍 구암리 244-6",
+                "경기도 남양주시 화도읍 구암리 244-5",
+                "경기도 남양주시 화도읍 구암리 244-1"
+            ];
+        for(let i=0; i<addresses.length; i++){
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(addresses[i],
+                function (result, status) {
+                    console.log(result);
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === kakao.maps.services.Status.OK) {
+                        var coords = new kakao.maps.LatLng(
+                            result[0].y,
+                            result[0].x
+                        );
+
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords,
+                        });
+
+                        // 인포윈도우로 장소에 대한 설명을 표시합니다
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content:
+                                '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>',
+                        });
+                        infowindow.open(map, marker);
+
+                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                        map.setCenter(coords);
+                    }
+                }
+            );
+        }
+    </script>
+</html>

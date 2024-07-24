@@ -1,0 +1,2 @@
+npx create-react-app [프로젝트 이름] --template typescript
+yarn create react-app [프로젝트 이름] --template typescript

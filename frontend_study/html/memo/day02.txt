@@ -1,0 +1,62 @@
+속성(Attribute)
+	태그는 속성을 가질 수 있다.
+
+	<p class="conversation"> You are much better </p>
+
+	속성은 내용에 나타내고 싶지 않지만 추가적인 내용을 담고 싶을 때 사용한다.
+	특히 id와 class 속성은 스타일에 관련된 내용이나 기타 연산등의 내용을 위해
+	해당 태그를 찾을 수 있는 구분점 역할을 수행한다.
+
+	- 속성 사용 시 주의사항
+		1. 태그 이름 다음에 오는 속성은 태그 이름과 속성 사이에 공백이 있어야 하고,
+		   여러 속성이 있을 경우에는 공백을 넣어서 구분한다.
+		   <p id="p1" class="p-group"> You are pretty </p>
+
+		2. 속성 이름 다음에는 등호(=)를 작성한다.
+		3. 속성 값은 따옴표 안에 작성한다.
+		   생략이 가능하지만, 여러 값을 작성할 수도 있기 때문에 꼭 붙여준다.
+HTML 요소의 종류
+
+▶ 블록 요소
+	- p, h, ul, ol, div, form, ... 등
+	- 웹 페이지 상에 블록(영역)을 만드는 요소
+	- 코드 상에 한 줄로 이어써도 화면 상에서는 앞 뒤 요소 사이에 새로운 줄을 만들어서 나타난다.
+	  <p>apple</p><p>banana</p>
+	- 영역이 정확히 구분되어 있기 때문에, width와 height 속성을 수정할 수 있다.
+	- margin-top, margin-bottom 속성도 잘 적용된다(바깥 여백 상하).
+	- padding-top, padding-bottom 속성도 잘 적용된다(안쪽 여백 상하).
+
+
+▶ 인라인 요소
+	- span, a, img, strong, em, ... 등
+	- 새로운 줄을 만들지 않고 작성한 단락 내에 나타난다.
+	- 안에 있는 내용만큼만 영역을 차지한다.
+	  <em>apple</em><span>banana</span>
+	- 영역이 불분명하기 때문에 width와 height를 임의로 부여할 수 없다.
+	- margin-top, margin-bottom 속성은 부여할 수 없다(바깥 여백 상하).
+	- padding-top, padding-bottom 속성은 부여할 수 있지만 전체적인 구조를 잡기는 힘들다.
+
+
+▶ 인라인 블록 요소
+	- button, input, select, ... 등
+	- inline 요소와 동일한 영역(내용만큼)을 가지지만 width와 height를 설정할 수 있다.
+	- margin-top, margin-bottom 속성도 잘 적용된다(바깥 여백 상하).
+	- padding-top, padding-bottom 속성도 잘 적용된다(안쪽 여백 상하).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

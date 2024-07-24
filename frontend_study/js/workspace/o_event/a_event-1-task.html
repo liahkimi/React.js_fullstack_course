@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>클릭 이벤트 실습</title>
+    </head>
+    <body>
+        <form action="" name="login">
+            <div>
+                <input type="text" placeholder="아이디" name="id" />
+            </div>
+            <p></p>
+
+            <div>
+                <input type="password" placeholder="비밀번호" name="password" />
+            </div>
+            <p id="help"></p>
+
+            <button type="button" id="check">검사</button>
+        </form>
+    </body>
+    <script>
+        //Ver 1.0 return을 사용해서 코드 실행을 막아주기
+        // 검사 버튼 클릭 시,
+        const check = document.getElementById("check");
+        check.addEventListener("click", (e) => {
+            const id = document.login.id;
+            const idHelp = id.parentElement.nextElementSibling;
+            const password = document.login.password;
+            const passwordHelp = document.getElementById("help");
+
+            // 1. 아이디 검사
+            if (!id.value) {
+                // 1-1. 아이디가 입력되지 않았을 때 아래의 p태그에 적절한 메세지 작성(빨간색)
+                with (idHelp) {
+                    innerText = "아이디를 입력해주세요.";
+                    style.color = "red";
+                }
+                return;
+            }
+
+            // 1-2. 아이디가 입력되었을 때 아래의 p태그에 적절한 메세지 작성(녹색)
+            with (idHelp) {
+                innerText = "멋진 아이디에요!";
+                style.color = "green";
+            }
+
+            // 2. 비밀번호 검사
+            if (!password.value) {
+                // 2-1. 비밀번호가 입력되지 않았을 때 아래의 p태그에 적절한 메세지 작성(빨간색)
+                with (passwordHelp) {
+                    innerText = "비밀번호를 입력해주세요.";
+                    style.color = "red";
+                }
+                return;
+            }
+
+            // 2-2. 비밀번호가 입력되었을 때 아래의 p태그에 적절한 메세지 작성(녹색)
+            with (passwordHelp) {
+                innerText = "사용 가능한 비밀번호 입니다(강력)";
+                style.color = "green";
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,115 @@
+MongoDB란?
+- MongoDb는 고성능, 고가용성 및 쉬운 확장성을 제공하는 NoSQL, Document 지향 데이터 베이스이다.
+- 데이터를 배열 및 중첩 Document와 같은 복잡한 데이터 유형을 효율적으로 저장할 수 있는 유연한 JSON과
+유사한 형식인 BSON(Binary JSON)으로 저장한다.
+
+NoSQL이란?
+- NoSQL은 Not only SQL의 약자이다. 문서, 그래프 데이터베이스, 키-값 저장소와 같은 비관계형 데이터를 저장하고
+검색하는 데이터 베이스의 한 유형이다.
+
+NoSQL의 장점
+1. JSON 형태로만 저장하기에 처리 속도가 빨라서 초고용량 데이터 처리에 최적화되어 있다.
+2. 스키마 없기에 데이터를 원하는 방식으로 수정할 수 있고 새로운 필드를 추가할 수 있는 유연성이 있다.
+3. 기존 관계형 데이터베이스에 비해 뛰어난 성능을 제공한다.
+
+NoSQL의 단점
+1. 데이터 중복을 계속 업데이트 해야하는 단점이 있다.
+2. 유연성으로 데이터 구조 결정을 미루게 된다.
+3. 데이터베이스 일관성이 약하다.
+
+====================================================================================
+yarn add mongodb
+
+
+2. mongoClient 연결
+   > import { MongoClient } from "mongodb";
+
+3. connection_url로 연결 mongoDB 사이트 [database]-[vscode 주소]
+   > const connection_url = `mongodb+srv://codefuling:1234@cluster-test.tydmd0u.mongodb.net/`;
+
+4. MongoClient.connect 연결
+   > db = MongoClient.connect("url")
+
+
+- collection 생성
+   > db.createCollection("name")
+
+- collection 가져오기
+   > db.collection("name")
+
+// collection 또는 inventory로 표현함
+
+※ 데이터 추가
+- 단일추가
+   > insertOne({name: kim})
+
+- 다중 추가 // 객체단위
+
+   >insertMany(
+      {name: "sehwan"},
+      {name: "lora"}
+   )
+
+- 데이터 확인 // 총 개수, 객체 단위 데이터가 아니라 객체 안에 데이터 전부의 개수
+   > countDocuments()
+
+
+===============================================================================
+
+- $eq : 단일 일치 값
+   > find(<value> : {$eq: <searchValue>})
+- $ne : 일치하지 않는 모든 값
+   > find(<value> : {$ne: <notSameValue>})
+- $in : 여러값 중 일치하는 값 "||"
+   > find(<value> : {$in: [<value>, <value>]})
+- $nin : 여러값 중 일치하지 않는 값 "||"
+   > find(<value> : {$nin: [<value>, <value>]})
+- $not : false를 true, true를 false로
+   > find(<value> : { $not: {$nin: [<value>, <value>]}})
+
+- $gt : 지정된 값보다 큰 값 조회.
+   > find(<value> : {$et: <searchValue>})
+
+- $gte : 지정된 값보다 크거나 같은 값 조회
+   > find(<value> : {$ete: <searchValue>})
+
+- $lt : 지정된 값보다 작은 값 조회
+   > find(<value> : {$lt: <searchValue>})
+
+- $lte : 지정된 값보다 작거나 같은 값 조회
+   > find(<value> : {$lte: <searchValue>})
+
+
+- $or : 하나라도 true면 true // 여러값은 배열의 형태로 전달
+   > find(<value> : {$or: {[<value>, <value>]}})
+
+- $and : 모두 true면 true // 여러값은 배열의 형태로 전달
+   > find(<value> : {$or: {[<value>, <value>]}})
+
+- $nor : 모두 false면 ture
+   > find(<value> : {$nor: {[<value>, <value>]}})
+
+
+- Embedded Data: value에 여러 정보(객체)가 있을 때
+   > .find({ "object.properties": <value> }).toArray();
+
+- listed Data: value에 여러 정보가 배열로 있을 때
+   > .find({ "key" : <value> }).toArray();
+
+- Embedded Data list: value에 여러 정보(객체)가 list형태로 있을 때
+   > .find({ address: { $elemMatch: { main: "서울" } } })
+
+- projection: 선택 필드(원하는 정보만 가져오기)
+   >  .find({}, { projection: { name: 1 } })
+
+※ 데이터 삭제
+- 단일 삭제
+   > deleteOne({<value>: $eq : {"<value>"}})
+
+- 전체삭제
+   > deleteMany()
+
+
+
+
+

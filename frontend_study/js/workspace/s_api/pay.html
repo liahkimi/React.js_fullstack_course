@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>결제 API</title>
+    </head>
+    <body>
+        <button id="pay-button">결제하기</button>
+    </body>
+    <script src="https://js.bootpay.co.kr/bootpay-4.3.4.min.js" type="application/javascript"></script>
+    <script>
+        const payButton = document.getElementById('pay-button');
+        const pay = async () => {
+            const response = await Bootpay.requestPayment({
+                // JS APP KEY
+                application_id: '660e7ec31055a685ca4ec09d',
+                price: 5000,
+                order_name: '테스트결제',
+                order_id: 'TEST_ORDER_ID',
+                pg: '카카오페이',
+                method: '카카오페이',
+                tax_free: 0,
+                user: {
+                    id: '회원아이디',
+                    username: '회원이름',
+                    phone: '01000000000',
+                    email: 'test@test.com',
+                },
+                items: [
+                    {
+                        id: 'item_id',
+                        name: '테스트아이템',
+                        qty: 1,
+                        price: 5000,
+                    },
+                ],
+                extra: {
+                    open_type: 'iframe',
+                    card_quota: '0,2,3',
+                    escrow: false,
+                },
+            });
+        };
+
+        payButton.addEventListener('click', (e) => {
+            pay();
+        });
+    </script>
+</html>

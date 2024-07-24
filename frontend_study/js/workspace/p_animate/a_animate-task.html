@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>애니메이션 실습</title>
+        <style>
+            #container {
+                /* relative : 상대적 위치지정(자식요소들을 배치할때의 기준이되는 요소에 적용함) */
+                position: relative;
+                width: 300px;
+                height: 300px;
+                /* 수평 가운데 정렬 */
+                margin: 0 auto;
+                /* 요소의 내용이 넘칠 때 가리는 옵션 */
+                overflow: hidden;
+            }
+            /* 공통적인 스타일 */
+            div.action1,
+            div.action2 {
+                /* absolute : 부모요소인 container 기준으로 자식요소들의 자유로운 위치 결정 */
+                position: absolute;
+                height: 300px;
+                /* 배경 이미지의 크리를 100%로 설정하여 요소에 꽉차게 배경이미지 표시 */
+                background-size: 100% 100%;
+            }
+            /* 각각의 추가 스타일 */
+            /* container 내부의 왼쪽에 배치 */
+            div.action1 {
+                width: 300px;
+                background-image: url("./action1.png");
+            }
+            /* container 내부의 오른쪽에 배치 */
+            div.action2 {
+                width: 300px;
+                /*🌟div.action1의 오른쪽에 배치함.
+                (container의 크기를 벗어나지만, overflow:hidden 덕분에 부모 요소의 크기를 벗어나는 내용은 숨겨진다.) */
+                left: 300px;
+                background-image: url("./action2.png");
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 체크/체크해제 상태에 따라 이벤트 발생케 함(화면에 표시되지는 않는 checkbox)-->
+        <input type="checkbox" id="check" style="display: none" />
+        <!-- div 2개를 묶은 container div -->
+        <div id="container">
+            <label for="check">
+                <!-- 🌟둘 중 어떤 div를 check해도 checkbox가 동일하게 동작도록 label로 묶음  -->
+                <div class="action1 action"></div>
+                <div class="action2 action"></div>
+            </label>
+        </div>
+    </body>
+    <script>
+        // 체크박스 가져오기
+        const input = document.getElementById("check");
+        // 클래스가 action인 div2개 가져오기
+        const actions = document.querySelectorAll("div.action");
+
+        // 체크박스의 상태가 변경될때
+        input.addEventListener("change", (e) => {
+            // 🌟true : 1, false: 0 => index 활용하기
+            // const i = Number(e.target.checked); //
+            // actions[i]; //체크 상태면 actions[1], 체크해제 상태면 actions[!1]
+
+            // 이벤트 대상(input)의 체크 상태를 담을 변수
+            const checked = e.target.checked;
+            // console.log(checked); //현재상테 확인(테스트)
+            // 애니메이션 공통된 option 주기 (애니메이션 지속시간을 100ms로, 애니메이션 이후에도 그대로 그 상태 유지)
+            const options = { duration: 100, fill: "forwards" };
+            // 애니메이션 각각의 style 주기
+            const styles = {
+                //체크 해제 상태 시(0)의 애니메이션 ->action1보임
+                //checked:false일때 action1의 너비 300px 설정하고, action2의 왼쪽 위치를 300px로 설정함
+                0: { width: checked ? "0" : "300px" },
+                //체크 상태 시(1)의 애니메이션 ->action2보임
+                //checked:true일때 action1의 너비를 0으로 설정하고, action2요소의 위치를 0으로(action2가 300px이 왼쪽을 밀려있어서 안보이던것을 보이게함)
+                1: { left: checked ? "0" : "300px" },
+            };
+            // 체크박스의 상태에 따라 actions 요소를 애니메이션으로 변환하기
+            // Number(): 체크박스상태 -> Number타입 변환
+            //체크 상태 시(1)의 actions요소의 애니메이션
+            actions[Number(checked)].animate(styles[Number(checked)], options);
+            // 체크 해제 상태 시(0)의 actions요소의 애니메이션
+            actions[Number(!checked)].animate(
+                styles[Number(!checked)],
+                options
+            );
+        });
+    </script>
+</html>

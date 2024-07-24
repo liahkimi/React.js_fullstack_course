@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>display - flex 실습</title>
+    <style>
+        #flex-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        #float-wrap {
+            width: 80%;
+            min-width: 840px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        #float-wrap div {
+            /* float: left; */
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="flex-wrap">
+        <div>
+            <img src="img1.jpg" alt="">
+        </div>
+        <div>
+            <img src="img2.jpg" alt="">
+        </div>
+        <div>
+            <img src="img3.jpg" alt="">
+        </div>
+    </div>
+
+    <div id="float-wrap">
+        <div>
+            <img src="img1.jpg" alt="">
+        </div><div>
+            <img src="img2.jpg" alt="">
+        </div><div>
+            <img src="img3.jpg" alt="">
+        </div>
+    </div>
+</body>
+</html>

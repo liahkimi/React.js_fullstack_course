@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>name 속성 선택 실습</title>
+    </head>
+
+    <body>
+        <form action="" name="login">
+            <input type="text" name="email" />
+            <input type="password" name="password" />
+            <div>
+                <label>
+                    <input type="checkbox" name="save-id" value="" />
+                    아이디 저장
+                </label>
+            </div>
+        </form>
+    </body>
+    <script>
+        // 이메일과 비밀번호 유효성 검사 진행
+        const email = document.login.email;
+        const password = document.login.password;
+        const saveId = document.login["save-id"];
+
+        if (!email.value) {
+            console.log("이메일을 입력해주세요.");
+        }
+
+        if (!password.value) {
+            console.log("비밀번호를 입력해주세요.");
+        }
+
+        // 아이디 저장을 처음부터 체크로 설정
+        saveId.checked = true;
+    </script>
+</html>

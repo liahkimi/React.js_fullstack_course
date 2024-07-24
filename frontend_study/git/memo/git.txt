@@ -1,0 +1,159 @@
+버전 관리 시스템
+	원하는 시점(버전)으로 이동할 수 있으며, 각 버전별로 여러 개발자가 협업할 수 있는
+	최적의 환경을 제공하는 시스템.
+
+SVN
+	작업 내역 커밋 시 변경사항과 히스토리가 즉시 서버로 전송되기 때문에 관리가 용이하다.
+	또한 간단한 설치와 사용방법으로 별도의 교육 없이도 초보자가 쉽게 사용할 수 있다.
+	하지만 항상 원격 저장소를 필요로 하며 서버 간 버전 관리가 힘들다.
+
+Git
+	SVN이 가지고 있던 클라이언트와 서버 간의 버전 관리 문제를 많이 보완해준 시스템.
+	서버 뿐만 아니라 로컬에서도 버전 관리가 가능하며, 로컬이 서버가 될 수 있고,
+	서버도 로컬이 될 수 있다. 브랜치라는 개념을 사용하여 개발자 마음대로
+	로컬 환경에서도 커밋과 버전 관리가 가능하다.
+
+Git-Hub
+	Git으로 관리하는 프로젝트를 호스팅하는 사이트 중 하나이다.
+	로컬 저장소에서 작업하던 버전들을 다른 클라이언트와 공유하기 위한 서버이다.
+
+로컬 버전 관리 흐름
+	git init
+	master 브랜치에서 기본 환경 세팅을 진행한다.
+	git add .			(master)
+	git commit -m "init"		(master)
+	git checkout -b test		(master)
+	본격적인 작업 진행		(test)
+	git add .			(test)
+	git commit -m "test init"	(test)
+	git checkout master		(test)
+	git merge test		(master)
+	fast-forward 진행		(master, test)
+	git remote add origin [개인 저장소 경로]	(master)
+	git remote -v				(master)
+	git push origin master			(master)
+
+git branch //현재 브랜치 확인
+
+//팁
+$ git config --global user.email "maruanna1994@gmail.com"//맨처음 메일설정
+$ git config --global user.name "maruanna1994"//맨처음 name 설정
+$ git rm --cached post-list.txt //stage에서 내리기(unstage)
+$ git checkout -b test //브랜치명 지으면서 동시에 그 브랜치로 이동
+
+$ git status  //현재 상태 확인
+On branch test
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        post-detail.txt 
+
+$ git log // 로그 상태 확인
+commit af51cea685ccba43ce5a0e6f3d49f4da4a3696e9 (HEAD -> test)
+Author: maruanna1994 <maruanna1994@gmail.com>
+Date:   Sun Feb 25 23:06:05 2024 +0900
+    게시글 상세보기 init
+commit 2dab975687d967c956edc7e51556adae5a5126b9 (master)
+Author: maruanna1994 <maruanna1994@gmail.com>
+Date:   Sun Feb 25 23:01:36 2024 +0900
+    게시글 목록 init
+
+$ git log --pretty=oneline //로그 상태 깔끔하게 보기
+42ade12e6b5e343aae0777b44eca2036dd39754a (HEAD -> test) reply-list init
+af51cea685ccba43ce5a0e6f3d49f4da4a3696e9 (master) 게시글 상세보기 init
+2dab975687d967c956edc7e51556adae5a5126b9 게시글 목록 init
+
+$ git checkout 2dab975 //merge 전 특정  순간으로 가고 싶을 때 식별번호7자리로 이동
+$ git checkout -  //가장 최신 상태로 되돌리기
+
+
+
+
+
+
+
+개인 저장소 흐름
+	git init
+
+	git checkout -b [작업할 브랜치명]
+	작업 진행
+	git add .
+	git commit -m "[버전 설명]"
+	git checkout master
+	git merge master
+	git remote add origin [개인 레포지토리 경로] //경로가 기니까 origin으로 명칭함
+		//=>개인레포지토리경로는 git-hub에서 new repository만들고 생긴 그 주소
+		//download zip으로 받으면 절 대 안 됨(그간 git history는 제외하고 받는것)
+		//.git 폴더를 제외하고 받는 것
+	git remote -v  // v = view  =>fetch/push 2가지 뜸
+	git push origin master // 로컬레포와 원격레포 모두 같은 브랜치명이여야 함.
+		//실무에서  master브랜치는 pull/push 용도로만 쓰는 브랜치
+	git checkout [작업할 브랜치]
+	
+	git clone -b [브랜치명] [클론 받은 레포지토리 경로] .
+	
+	//입사 첫출근시
+	//이런식으로 보내줌
+	//https://github.com/liahkimi/team02.git   dd561180(tag일수도)
+	git clone [클론 받은 레포지토리 경로(github.com/liahkimi/team02.git)] .
+	//마지막에 .을 안쓰면 클론 받을 깃헙 레포지토리의 이름과 같은 폴더가 생성됨
+	//workspace3>test>hello.html   <=이렇게 되는 격
+	// . 은 현재 경로라는 뜻  => workspace3>hello.html 로 클론받을 수 있음
+	//그리고
+	//$ git checkout dd56118  //해당 버전으로 이동해있으면 됨
+	//$ git checkout -b test  //내 test브랜치를 이 버전에서 따면 됨
+
+
+
+
+
+
+
+협업 공용 저장소 흐름
+	[팀장]
+	git-hub에서 organization 생성 후 레포지토리 생성
+
+	git init
+	작업 진행
+	git add .
+	git commit -m "init"
+	git remote add [공용 저장소 이름] [공용 저장소 경로]
+	git push [공용 저장소 이름] master
+
+	[전원]
+	git-hub의 organization의 레포지토리로 이동 후 fork받기
+	fork 받은 개인 레포지토리 경로를 git에 등록
+
+	[팀장]
+	git remote add origin [forked된 개인 레포지토리 경로]
+
+	[팀원]
+	git clone [forked된 개인 레포지토리 경로] .	
+	git remote add [공용 저장소 이름] [공용 저장소 경로] 
+
+	[전원]
+	git checkout -b [작업할 브랜치명]
+	작업 진행
+	git add .
+	git commit -m "[버전 설명]"
+	git checkout master
+	git merge master
+	git push origin master
+	git checkout [작업할 브랜치]
+
+	git-hub의 개인 레포지토리에 PR(Pull Request) 요청 보내기
+	팀장에게 보고
+
+	[팀장]
+	PR을 받으면, organization에서 확인 후 merge하기
+	전체에게 pull 받으라고 안내
+
+	[팀원]
+	git add .
+	git commit -m "for pull"
+	git checkout master
+	git pull [공용 저장소 이름] master
+	git checkout [작업 브랜치]
+
+	현재 작업에 pull받은 작업이 필요하면
+	git merge master
+	작업 진행

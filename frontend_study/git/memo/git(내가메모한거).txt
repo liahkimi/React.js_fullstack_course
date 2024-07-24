@@ -1,0 +1,67 @@
+
+로컬 -(push)-> 개인레포-(PR) -> 공용레포 -(pull)->
+
+*팀장롤 공용레포 생성하기
+1.내 로컬에서 폴더에 git-bash 열어서 진행
+2. $ git remote add origin https://github.com/liahkimi/test2.git
+= 개인레포를 'origin'이라는 이름으로 명명함
+3. $ git push origin master
+= origin(개인레포)에 master브랜치를 push해라 (로컬과 브라우저상의 브랜치명 일치해야함)
+
+master브랜치는 ALL PULL/PUSH 전용으로 둬야 함.
+
+PUSH는 개인레포로
+PULL은 공용레포에서!
+
+
+
+*팀장 레포지토리 클론해오기
+1. 팀장에게 레포지토리도 초대 받기
+2. 내 로컬에서 폴더에 git-bash 열어서 진행
+3. $ git clone https://github.com/full-team02/team02.git . (주소 한칸 띄우고 .)
+
+
+*브랜치 이름 바꾸기
+$ git remote rename origin team02 
+= origin에서 team02로 이름 바꾸기
+
+
+*팀원이 내용 업데이트하기
+-공용레포에 업데이트된 내용이 있는경우
+git checkout master//개인레포의 master브랜치로 이동
+git pull team02 master//개인레포의 master브랜치에 팀레포(team02)의 업데이트 된 내용 pull내려받기
+//내려받은 내용 보내는지 확인
+git checkout -b test //내가 작업하기 전에, 내 레포의 test브랜치로 되돌아가기
+//내가 작업하기
+git add . //작업한 뒤, 내 레포의 test 브랜치에서 깃애드해서 스테이징하기
+git commit -m "홍길동 추가"// 내 레포의 test 브랜치에서 커밋하기
+git checkout master//내 레포의 master브랜치로 이동
+git merge test //test브랜치의 업데이트된 내용을 master브랜치에 merge하기(=fast-forward한것)
+git push origin master //업데이트된 내용 내 레포지토리(origin)의 master브랜치에 push하기
+PR보내기 //
+팀장님 카톡보내기
+팀장은 PR받기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

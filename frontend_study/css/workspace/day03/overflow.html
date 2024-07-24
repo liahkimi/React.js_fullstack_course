@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>overflow</title>
+    <style>
+        #image-wrap {
+            width: 200px;
+            height: 200px;
+            /* overflow: scroll; */
+            overflow: hidden;
+        }
+
+        #text-wrap {
+            width: 200px;
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-wrap">
+        <img src="icon.png">
+    </div>
+
+    <div id="text-wrap">
+        <span>안녕하세요, 반갑습니다. 저는 CSS가 좋아요. 여러분도 그렇죠?</span>
+    </div>
+</body>
+</html>

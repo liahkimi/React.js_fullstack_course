@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>첨부파일 썸네일</title>
+        <style>
+            div.wrap {
+                position: relative;
+                display: flex;
+                align-items: center;
+                width: 150px;
+                height: 150px;
+                margin: 0 auto;
+            }
+
+            div.image {
+                /* 🌟옵션들 */
+                background-image: url("./attach.png");
+                background-size: 100% 100%; /* img를 div의 width,height에 100%로 맞춤 (가로/세로)*/
+                background-repeat: no-repeat; /* 옵션을 주지않을 때 img사이즈에 따라 반복되는 경우도 발생하는데 방지함 */
+                background-position: center; /* no-repeat했을때 요소가 상단좌측에 위치하므로 center로 위치 변경함 */
+                width: 150px; /* div.wrap의 크기와 같음(실제 img크기와 맞추는게 안깨지고 좋음)*/
+                height: 150px;
+                cursor: pointer; /* 근처로 가면 클릭커서 나오게함 (인식용) */
+                border: 1px solid gray;
+            }
+            /* x버튼  */
+            div.cancel {
+                display: none; /* 처음에는 x버튼 안보이게 설정*/
+                cursor: pointer;
+                position: absolute;
+                background-image: url("./cancel.png");
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin: 0 auto;
+                width: 30px;
+                height: 30px;
+                right: 15px;
+                top: 0;
+            }
+        </style>
+    </head>
+    <!-- 🌟썸네일의 목적 -->
+    <!-- 
+    원본 이미지의 크기가 크기 때문에,
+    작은 이미지로 화면에 출력하여, 서버의 부담을 덜어주기 위함이다.
+    -->
+    <body>
+        <!-- <form action="/a/b"> -->
+        <!--🌟실제로는 form태그로 감싸져있고, 실제 서버에 대한 경로에 있는 JS함수를 통해 소통함 -->
+        <div class="wrap">
+            <label for="attach">
+                <div class="image"></div>
+                <!-- <img>태그 대신 div를 써도 css로 img삽입 가능! -->
+                <!--  background-image: url("./attach.png"); -->
+            </label>
+            <div class="cancel"></div>
+        </div>
+        <!-- </form> -->
+        <input type="file" id="attach" style="display: none" />
+        <!-- 기존 file타입 input창은 못생겼으니 숨김 (label로 연결시킴.(id=for)) -->
+    </body>
+    <script>
+        // 업로드한 파일의 정보가 있는 정확히 ID가 attach인 input 가져오기
+        const input = document.getElementById("attach");
+        // 썸네일이 띄워질 div.img 가져오기
+        const thumbnail = document.querySelector("div.image");
+        // X표시창 가져오기 <=다른곳에서도 써야하기에, 맨 상단 선언부에 선언하기
+        const cancel = document.querySelector("div.cancel");
+
+        // 🌟업로드한 파일 정보가 input태그의 value에 들어간다.
+        // value가 변화되었다는 뜻은 파일이 업로드되었다는 뜻이다.
+        // 따라서 click을 주게 되면, 업로드 되기 전에 실행되므로, change가 적합하다.
+        // (클릭해서 어떤 첨부파일이 업로드되었는지 알아야하는데 즉시 실행되는것은 말이 안되므로..)
+        input.addEventListener("change", (e) => {
+            // 업로드된 파일을 가져온다.
+            const [file] = e.target.files; //🌟비구조화 할당 : file 변수는 files 배열의 첫 번째 요소를 대체함 ( rile =  e.target.files[0])
+            // e.target = input태그 / e.target.files = fileList 파일목록
+            // 🌟e.target.files에서 files는 fileList로 array객체다.
+            // 🌟<input type="file" multiple>  multiple옵션을 추가하면, 유저가 여러 파일을 한번에 추가 가능(기획에 따라)
+            // 🌟file.name말고 절대경로를 file객체에서 가져와야 함 => 어차피 크롬브라우저는 보안정책상의 이유로 절대경로 있어도 안띄워줌.
+            //   => 경로를 인코딩한 문자열값으로 변환해서 넣었을 때  브라우저는 자동 인식해서 경로를 가져올 수 있음!
+
+            // 업로드된 파일을 읽을 수 있는 reader 객체를 선언한다.
+            /*            
+            🌟FileReader()생성자란 ?
+            웹 브라우저에서 제공되는 JavaScript API 중 하나로, 파일을 비동기적으로 읽을 수 있는 기능을 제공한다.
+            주로 파일을 읽어들여서 웹 애플리케이션에서 파일의 내용을 활용하는 데 사용한다. 
+            */
+
+            const reader = new FileReader(); //객체화
+            // 내용이 아닌 파일의 경로를 읽어온다(Stream).
+            //.readAsDataURL 란? 선택한 파일의 절대경로를 읽어들이는 메서드
+            reader.readAsDataURL(file); //🌟file이 stream이다.(개별적) => 다 읽었는지만 알면 됨
+            // 🌟file과 stream/buffer란? >>노션정리한 것 참고해
+
+            // 다 읽었을 때, load 이벤트가 발생된다.
+            reader.addEventListener("load", (e) => {
+                // console.log(e.target); //FileReader{result:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAA...}
+                // 이 때, base64로 인코딩된 경로를 url()또는 src에 담아주면,
+                // 해당 경로의 이미지가 잘 출력된다. (https://www.base64encode.org/)
+
+                // x버튼이 보여야 하는 곳 (img던 뭐든간에 load되면 )
+                cancel.style.display = "block"; //load되면 none=>block
+
+                // img 파일을 가져왔다면
+                if (e.target.result.includes("image")) {
+                    //url에 입력 받은 img파일의 인코딩된 경로 넣어주기
+                    thumbnail.style.backgroundImage = `url("${e.target.result}")`;
+                    //img가 아닌 다른 타입의 파일을 선택했다면,
+                } else {
+                    //기존에 지정해둔 img 보여주기(절대경로)
+                    thumbnail.style.backgroundImage = `url("./file.png")`;
+                }
+            });
+        });
+        // 언제든 캔슬 버튼 누르면 캔슬 버튼 사라지게 하기 (단독으로 이벤트 만들어줘야 함)
+        cancel.addEventListener("click", (e) => {
+            //1. 맨 처음 이미지로 변경 (플러스 버튼)
+            thumbnail.style.backgroundImage = `url("./attach.png")`;
+            //2. input 태그의 value를 초기화 하기 (for 서버단)
+            input.value = "";
+            //3. x버튼 숨기기
+            cancel.style.display = "none";
+        });
+    </script>
+</html>

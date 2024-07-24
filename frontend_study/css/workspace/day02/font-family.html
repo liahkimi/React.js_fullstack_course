@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 외부에서 가져온 웹 폰트는 link태그로 추가한다. -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet"> -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic-coding.css" rel="stylesheet">
+    <title>폰트 적용</title>
+    <style>
+        /* CSS에서 외부의 웹 폰트를 적용할 때에는 @import url()로 가져온다. */
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
+
+        @font-face {
+            font-family: "Namu";
+            src: url("NanumNaMuJeongWeon.ttf") format("truetype");
+        }
+
+        body {
+            font-family: 'Nanum Brush Script';
+        }
+
+        h2 {
+            font-family: 'NanumGothicCodingBold';
+        }
+
+        h3 {
+            font-family: "Namu";
+        }
+    </style>
+</head>
+<body>
+    <h1>안녕하세요😁</h1>
+    <h2>반갑습니다~!</h2>
+    <h3>나중에 또 봐요^^</h3>
+</body>
+</html>

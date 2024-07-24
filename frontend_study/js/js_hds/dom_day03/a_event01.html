@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트</title>
+</head>
+<body>
+    <h3>CSS 스타일 동적 변경</h3>
+    <hr>
+    <p>변경될 요소</p>
+    <input type="button" value="스타일 변경">
+</body>
+<script>
+    const input = document.querySelector("input[type=button]");
+    const target = document.querySelector("p");
+
+    input.addEventListener("click", (e) => {
+        // 이벤트가 발생한 객체
+        // console.log(e.target);
+
+        // with(target.style){
+        //     fontSize = "30px";
+        //     border = "3px dashed magenta";
+        //     width = "100px";
+        //     textAlign = "center";
+        // }
+    });
+</script>
+</html>

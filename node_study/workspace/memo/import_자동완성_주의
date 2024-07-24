@@ -1,0 +1,5 @@
+리액트 관련 import는 해당 파일의 확장자명을 안붙여도 되지만
+
+express나 node의 경우는 확장자명을 꼭 붙여줘야 한다!
+ex.
+import connect from "./connect.js"; 

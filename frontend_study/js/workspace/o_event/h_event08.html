@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>이벤트 위임</title>
+        <style>
+            /* 🌟CSS에서 선택자 쓸 때, 클래스는 이름을 나열해서 쓰면, &&연산이다.(둘 다 있어야 적용되며,순서 중요X) */
+            /* => &&연산은 a도 있고 b도 있어야 한다. ||연산과 달리 */
+            /* 그래서 아래처럼 클래스 이름을 나열한 경우 div에 클래스명이 child1과 on까지 있어야 아래 스타일 속성이 적용되는 것이다. */
+
+            /* div중에서 클래스가 child1인 요소에 on이라는 클래스가 있다면 해당 스타일을 줘라. */
+            div.child1.on {
+                color: #ff0000;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" style="height: 400px"></div>
+    </body>
+    <script>
+        // 🌟JS로 만들어 낸 자식요소의 경우에는, 이벤트 위임이 가능하기에 부모요소에 이벤트를 주는 것이 효율적이다.
+        // 부모요소에게 모든 설정을 해두고, 자식요소가 위임 받아 사용하는 방법을 쓰자.
+        // js로 만든 자식요소에게 직접 이벤트를 걸어버리면, 자식요소를 선언부에 선언할 수 없다.
+        // 선언문을 선언부에 쓰지 않으면 나중에 콜백함수나 다른 복잡한 상황시, 깔끔한 코드가 될 수 없다.
+
+        // container라는 div요소 가져오기
+        const container = document.getElementById("container");
+        // js로 container 내부에 클래스가 child1인 div요소 집어 넣기
+        container.innerHTML = `<div class='child1'>이벤트 위임1</div>`;
+        // js로 container 내부에 클래스가 child2인 div요소 집어 넣기 (+= 누적연산자를 안쓰면 '이벤트 위임2'만 보여짐)
+        container.innerHTML += `<div class='child2'>이벤트 위임2</div>`;
+
+        // 🌟child1과 child2의 부모요소인 container에 클릭 이벤트 달기
+        // <= 부모요소인 container(div) 빈 공간에서 클릭하던, 자식요소인 chid1,2에 정확히 클릭하던 둘 다 클릭 이벤트 실행됨! (이벤트 위임)
+        // <= 하지만, 자식요소가 여럿 있을 때, 부모요소를 클릭했을 때 어떤 자식의 이벤트인지 구분하기 어려움 => 'e'로 해결!
+        // <= e.target은 이벤트를 발생시킨 객체를 갖고 있음.
+        container.addEventListener("click", (e) => {
+            // console.log(e.target);   //<= e.target으로 이벤트를 발생시킨 객체를 출력해봄
+
+            // 🌟className과 classList.contains()의 차이
+            // 1. className
+            // e.target.className == "child1"
+            // <= 이런식으로 조건식을 세우면, class가 child1 on이 된 경우를 못가져와서 toggle메서드를 사용 못함
+            // 'child1' , 'child1 on' 둘 다 인 상태를 가져 올 수 있어야 한다.
+            // 2. classList
+            // 여러개의 클래스 이름 중, 원하는 이름을 검사할 때에는 classList에 있는 contains() function을 활용한다.
+            // <= 클래스 이름이 child1 이던, child1 on이던 모두 가져올 수 있다.
+
+            // 클릭한 이벤트 대상이 child1클래스를 포함하고 있다면,
+            if (e.target.classList.contains("child1")) {
+                // 🌟remove와 add를 수작업으로 쓰면 이벤트도 잘 안먹히고, 코드도 복잡해지니
+                //  애초에 이런 on/off기능을 같이 쓸 것을 알기에 toggle이 만들어졌다.
+                // if (e.target.classLis[1] === "on") {
+                //     e.target.classList.remove("on"); //on클래스 삭제
+                // } else {
+                //     e.target.classList.add("on"); // on클래스 추가
+                // }
+
+                // 🌟toggle(~) : ~가 있으면 없애고, 없으면 붙여주는 프로퍼티
+                // 클릭한 이벤트 대상에 클래스 on을 붙여 <div class='child1 on'>로 만들어
+                // div.child1.on 스타일요소가 적용되게 만든다.
+                e.target.classList.toggle("on");
+                // toggle(): 있으면 안붙이고, 없으면 붙임
+            }
+        });
+    </script>
+</html>

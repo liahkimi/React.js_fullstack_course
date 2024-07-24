@@ -1,0 +1,124 @@
+1. Chocolatey란?
+    - 윈도우 소프트웨어를 위한 머신 수준의 명령 줄 패키지 관리자이자 인스톨러이다.
+    설치하려는 윈도우용 소프트웨어를 일일이 웹사이트에서 찾아서 설치할 필요 없이
+    간단하게 command 만으로 윈도우용 소프트웨어를 설치할 수 있게 해준다.
+    - 패키지 매니저로서, choco 명령어를 통해 JS 환경을 좀 더 쉽게 설정할 수 있다.
+    - 넷플릭스, 우버, 나사, 네이버 등에서 사용하고 있다.
+
+2. K6란?
+    - Grafana에서 만든 오픈소스 부하테스트 도구이다.
+    요청과 응답 사이의 시간이 짧아졌는지, 또한 이용자가 많이 몰리는 특수한 상황에서 서버가
+    얼마나 잘 대처하여 오류를 최소화하는지 여부를 파악하기 위해 사용한다. // JMeter도 있다
+
+
+================================================================================
+3. http 모듈
+   - http웹 서버와 관련된 모든 기능을 담고 있는 모듈
+
+4. server 객체
+   - 웹 서버를 생성할 때 사용하는 객체
+
+5. server 객체 메서드
+   - listen(port, callbackFc) : 서버를 첫 번째 매개변수의 포트번호로 실행
+   - close(callback) : 서버를 종료할 때
+
+6. server 객체의 이벤트
+    - request : 클라이언트가 요청할 때 발생하는 이벤트 // default
+    - connection : 클라이언트가 접속할 때 발생하는 이벤트
+    - close : 서버가 종료될 때 발생하는 이벤트
+    - checkContinue : 클라이언트가 지속적인 연결을 하고 있을 때 발생하는 이벤트
+    - upgrade : 클라이언트가 http 업그레이드를 요청할 때 발생하는 이벤트
+    - clientError : 클라이언트에서 오류가 발생할 때 발생하는 이벤트
+    
+7. response객체
+응답 메시지를 작성할 때 request이벤트 리스너의 두 번째 매개변수로 전달되는 객체
+    - res.send()
+        - send에 전해진 argument에 따라서 Content-type이 자동적으로 만들어진다. // default
+    - res.json()
+        - json이 아닌 것도 json 형식으로 바꾸어서 보내준다. 즉 content-type 헤더를 application/JSON으로 고정한다.
+        - 그런데 res.json()도 마지막에 res.send()를 호출한다.
+    - res.end()
+        - 보내줄 아무 데이터도 없는데 response를 끝내고 싶을 때 사용한다.
+        
+8. response객체 메서드
+    - writeHead(statusCode, statusMessage, headers) : 응답 헤더를 작성
+    - end(data, encoding, callback) : 응답 본문을 작성
+    
+9. request객체
+    - 응답 메시지를 작성할 때 request이벤트 리스너의 첫 번째 매개변수로 전달되는 객체
+    - port
+    네트워크 상에서 통신을 할 때 IP를 토대로 해당 서버가 있는 컴퓨터에 접근한다.
+    그런데 대부분의 경우 하나의 컴퓨터에는 여러 개의 서버가 실행될 수 있다.
+    컴퓨터에 여러 개의 서버가 실행되고 있다면, 어느 서버에 접속해야 하는지 컴퓨터에게 알려주어야 한다. 이때 사용되는 것이 포트 번호이다.
+
+
+
+10. k6로 수집할 수 있는 항목들
+1> 항상 수집하는 항목
+이름(Matric Name)      타입(type)   설명(Description)
+vus            Gauge      현재 활성화된 사용자 유저
+vus_max            Gauge      가능한 최대 가상 사용자 수
+interations         Counter      *테스트에서 Vu가 JS 스크립트를 실행한 총 횟수
+interations_duration      Trend      defalut , main function의 전체 반복을 한 번 완료하는 데 소요된 시간
+data_recevied         Counter      데이터를 전달받은 양
+data_sent         Counter      데이터를 전달한 양
+
+2> http와 관련된 항목
+이름(Matric Name)      타입(type)   설명(Description)
+http_reqs         Counter      총 얼마나 많은 HTTP request를 k6에서 생성했는지
+http_req_blocked      Trend      요청을 시작하기 전에 차단된 시간 *TCP connetion slot : 즉 기다리는 시간
+http_req_connection      Trend      원격 호스트에 대한 TCP 연결을 설정하는데 소요한 시간
+http_req_tls_handshaking   Trend      원격 호스트와의 핸드셰이킹 TLS 세션에 소요된 시간
+http_req_waiting      Trend      원격 호스트로부터 응답을 대기하는데 소요된 시간
+http_req_receiving      Trend      원격 호스트로부터 응답 데이터를 수신하는데 소요된 시간
+http_req_duration      Trend      요청의 총 시간
+req_sending+req_waiting+req_receiving
+http_req_failed   Rate   실패한 요청
+
+====================================================================================================
+nodemon 설치
+> 관리자권한으로 vscode 열어서 설치할 것
+> npm install global nodemon
+> yarn add nodemon
+nodemon라이브러리 : 데이터가 바뀌었을 때, 서버를 재실행하지 않으면 업뎃이 안되어 껐다 켰다하는 불편함을 없애주는
+자동으로 업뎃해주는 편리한 라이브러리
+
+====================================================================================================
+
+curl
+// 설치
+https://curl.se/windows/
+> 64비트 설치
+> 압축 풀기
+> 환경변수 등록 
+	> bin폴더위치 환경변수에 등록
+	C:\Users\gekim\Documents\node\resouce\curl-8.8.0_1-win64-mingw\bin
+	> 시작>환경변수편집>시스템변수>Path>새로만들기>경로 넣고 맨 위로 올리기>확인
+> vscode에서 powershell cli환경 켜서
+> curl http://localhost:8000
+> curl을 통해서 웹사이트에게 요청과 응답을 주고 받은 것을 cli로 편하게 볼 수 있음
+
+====================================================================================================
+
+상태 코드
+
+1XX: 처리중
+
+100: Continue
+102: Processing
+2XX: 성공
+
+200: OK
+201: Created
+202: Accepted
+3XX: 리다이렉트
+
+4XX: 요청 오류
+
+400: 잘못된 요청
+401: 권한 없음
+403: 금지됨
+404: 찾을 수 없음
+5XX: 서버 오류
+
+

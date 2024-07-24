@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST TASK</title>
+</head>
+<body>
+    <h1 id="result"></h1>
+</body>
+<script>
+    // 서버에 fetching
+    fetch("http://localhost:8000/api/product/3")
+    // response json형식으로 받기
+    .then((res) => res.json())
+    // json형식으로 받았으므로, product 객체형식으로 인자로 들어옴
+    .then((product) => document.getElementById("result").innerText = product.name)
+</script>
+</html>

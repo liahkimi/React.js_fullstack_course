@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>체크박스 실습</title>
+    </head>
+    <body>
+        <label> <input type="checkbox" value="선택1" /> 선택1 </label>
+        <label> <input type="checkbox" value="선택2" /> 선택2 </label>
+        <label> <input type="checkbox" value="선택3" /> 선택3 </label>
+        <p id="result"></p>
+    </body>
+    <script>
+        // 초보자용
+        // 체크된 체크박스의 value값을 콘솔에 출력하기
+        // const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        // checkboxes.forEach((checkbox) => {
+        //     checkbox.addEventListener("change", () => {
+        //         if (checkbox.checked) {
+        //             console.log(checkbox.value);
+        //         }
+        //     });
+        // });
+
+        // 고수용
+        // 체크된 체크박스의 value값이 p태그에 작성된다.
+        // 3개를 선택하면 3개의 value값이 선택된 순서대로 p태그에 작성된다.
+        // 체크를 해제하면 해당 내용이 p태그에서 삭제된다.
+
+        // NodeList 타입은 filter 프로퍼티가 없기 때문에 새롭게 선언해준다.
+        // Array 객체가 구현한 filter를 그대로 넣어준다.
+        NodeList.prototype.filter = Array.prototype.filter;
+
+        // 모든 체크박스를 가져온다(NodeList).
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        // 결과를 담아줄 p태그를 가져온다.
+        const result = document.getElementById("result");
+
+        // 체크박스를 하나씩 가져와서
+        checkboxes.forEach((checkbox) => {
+            // change 이벤트 등록
+            checkbox.addEventListener("change", (e) => {
+                let text = "";
+                // 체크박스가 체크상태(true)라면,
+                if(e.target.checked) {
+                    // 알맞은 문구를 span태그로 감싸서 추가
+                    text = `<span class="text">${e.target.value}</span>`;
+                    // 기존 내용이 사라지면 안되기 때문에 누적 연결한다.
+                    result.innerHTML += text;
+                }else{
+                    // 체크박스가 해제상태(false)라면,
+                    // 기존에 작성되어 있던 내용(span)을 모두 가져온다.
+                    const spans = document.querySelectorAll("span.text");
+                    // 해제한 체크박스의 문구와 다른 것들만 추출한다.
+                    spans.filter((span) => span.innerText !== e.target.value)
+                    .forEach((span) => {
+                        // 추출한(삭제가 되면 안되는) span태그를 다시 이어 붙인다.
+                        text += `<span class="text">${span.innerText}</span>`
+                    });
+                    // 위 결과를 다시 result에 담아준다.
+                    result.innerHTML = text;
+                }
+            });
+        });
+    </script>
+</html>

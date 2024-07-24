@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>체크박스</title>
+    </head>
+    <body>
+        <label for=""><input type="checkbox" value="선택1" />선택1</label>
+        <label for=""><input type="checkbox" value="선택2" />선택2</label>
+        <label for=""><input type="checkbox" value="선택3" />선택3</label>
+        <p id="result"></p>
+    </body>
+    <script>
+        // 😎 문제 :
+        // 체크박스를 체크하면 그 내용이 출력되게 만들기
+
+        //체크박스 타입인 모든 input 요소들을 가져온다.
+        const checkboxes = document.querySelectorAll("input[type='checkbox']"); //type이 checkbox인 input들만 가져오는 방법
+        //특정 체크박스를 클릭하면 내용이 띄워질 id가 result인 p태그도 가져온다.
+        const result = document.getElementById("result");
+
+        //모든 체크박스를 forEach메서드로 하나씩 검사하여 추출한다.
+        checkboxes.forEach((checkbox) => {
+            //체크박스들 중 change이벤트가 감지된 요소들만 함수를 실행시킨다.
+            checkbox.addEventListener("change", (e) => {
+                // e(이벤트 객체) : change 이벤트가 감지되면 이 이벤트에 대한 정보를 담고 있는 객체
+                // e.target : change 이벤트가 실제로 감지된 요소
+                // e.target.checked : 해당 체크박스가 체크되었는지 나타내는 속성
+                if (e.target.checked) {
+                    //체크박스가 체크되었다면
+                    //result(p태그)에 이벤트가 발생한(체크된) 체크박스의 value값(선택1~3)을 텍스트 내용으로 전해준다.
+                    //그러면 매번 체크박스를 클릭할때마다, 체크박스의 값을 result에 띄울 수 있게된다.
+                    result.innerText = e.target.value;
+                }
+            });
+        });
+    </script>
+</html>

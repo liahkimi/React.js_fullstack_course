@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            종합 실습 01 -자바스크립트와 jsonplaceholder서버만으로 실습하기
+        </title>
+        <style>
+            table,
+            div {
+                width: 800px;
+                margin: 0 auto;
+                border: 1px solid gray;
+                border-collapse: collapse;
+            }
+
+            div {
+                text-align: center;
+            }
+
+            input {
+                width: 130px;
+            }
+
+            td,
+            th {
+                border: 1px solid gray;
+            }
+
+            /* 아래의 버튼들은 목록페이지에서 보여지지 않는 버튼이다. */
+            #go-list,
+            #go-update,
+            #update,
+            #delete {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="list-button">데이터 가져오기</button>
+        <button id="write-button">데이터 추가하기</button>
+        <button id="go-list">목록으로</button>
+        <button id="go-update">수정하기</button>
+        <button id="update">수정완료</button>
+        <button id="delete">삭제하기</button>
+        <div>
+            <input type="text" id="name" placeholder="이름" />
+            <input type="text" id="city" placeholder="시.도" />
+            <input type="text" id="street" placeholder="구.군.동" />
+            <input type="text" id="suite" placeholder="상세주소2" />
+            <input type="text" id="zipcode" placeholder="우편주소" />
+        </div>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>street</th>
+                    <th>suite</th>
+                    <th>city</th>
+                    <th>zipcode</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </body>
+    <script src="service01.js"></script>
+    <script src="layout01.js"></script>
+    <script>
+        const listButton = document.getElementById("list-button");
+        const writeButton = document.getElementById("write-button");
+        const tbody = document.querySelector("table.user-table tbody");
+        const goListButton = document.getElementById("go-list");
+        const goUpdateButton = document.getElementById("go-update"); //수정하기 버튼
+        const updateButton = document.getElementById("update"); //수정완료 버튼
+        const deleteButton = document.getElementById("delete"); //삭제하기 버튼
+
+        // 삭제하기 버튼 이벤트
+        const deleteClickEvent = async (e) => {
+            // 상세보기 서비스에서 삭제 버튼에 회원번호를 작성했다.
+            // class속성에 작성된 회원번호를 가져온다.
+            const userId = e.target.classList[0]; // e.target = delete button
+            // 삭제 서비스 실행
+            userService.remove(userId);
+
+            // 삭제 된 후 기존의 전체 목록 보여주기
+            // 전체 목록
+            const text = await userService.findAll(userLayout.showList);
+            // 전체 목록 화면에 출력
+            tbody.innerHTML = text;
+
+            // 기존 전체 목록 페이지로 가기 위해
+            // 목록으로 버튼 숨기기
+            goListButton.style.display = "none";
+            // 삭제하기 버튼 숨기기
+            e.target.style.display = "none";
+            // 수정하기 버튼 숨기기
+            goUpdateButton.style.display = "none";
+        };
+
+        // 수정완료 버튼 이벤트
+        const updateClickEvent = async (e) => {
+            // user객체에 key값으로 써질 문자열들이 규칙성이 없으므로 규칙성을 부여하기 위해서 array객체에 담는다.
+            const keys = ["name", "street", "suite", "city", "zipcode"];
+            const tds = document.querySelectorAll("td");
+            const user = {};
+
+            // tr태그 안에 td태그가 6개있다.
+            tds.forEach((td, i) => {
+                // 첫 번째 td태그일 경우(id일 때)
+                if (i == 0) {
+                    // id를 user객체에 담아준다.
+                    user.userId = td.innerText;
+                    return; //종료
+                }
+                // 유저가 입력 한 값을 valu변수에 저장한다.
+                const value = td.querySelector("input").value;
+                // user객체에 새로운 key값을 넣는다.
+                // keys에는 id를 포함하지 않아서, i-1로 값을 넣어줘야 한다.
+                user[keys[i - 1]] = value;
+            });
+            // DB에 있는 user객체가 수정이된다.
+            userService.update(user);
+        };
+
+        //수정하기 버튼 이벤트
+        const goUpdateButtonClickEvent = async (e) => {
+            // e.target = 수정하기 button태그
+            // 수정하기 버튼태그의 class가 userId 번호다.
+            console.log(e.target);
+            const userId = e.target.classList[0];
+
+            // 수정하기
+            e.target.style.display = "none";
+            // 수정완료
+            updateButton.style.display = "inline-block";
+
+            tbody.innerHTML = await userService.read(
+                userId,
+                userLayout.updateUser
+            );
+        };
+
+        // 목록으로 돌아가기 버튼 이벤트
+        const goListButtonClickEvent = async (e) => {
+            // 목록으로 버튼 숨기기
+            e.target.style.display = "none";
+
+            // 전체 목록
+            const text = await userService.findAll(userLayout.showList);
+
+            // 화면 출력
+            // 전체 목록 출력
+            tbody.innerHTML = text;
+        };
+
+        // 상세보기 (목록의 글 클릭) 이벤트
+        const listButtonClickEvent = async (e) => {
+            const text = await userService.findAll(userLayout.showList);
+
+            tbody.innerHTML = text;
+
+            // 이벤트 위임 (부모:tbody, 자식:go-detail)
+            tbody.addEventListener("click", async (e) => {
+                // 기존 이벤트(페이지 이동)는 제거
+                e.preventDefault();
+                // 클릭된 객체의 클래스명이 'go-detail'이라면(a 태그라면),
+                // tbody의 자식요소들 중 클래스명이 'go-detail'인 것만!
+                if (e.target.classList[0] === "go-detail") {
+                    // a태그가 가지고 있는 href의 값이 바로 서버에 전달해야 할 회원의 번호
+                    const userId = e.target.getAttribute("href");
+
+                    // 버튼에 회원번호 심기
+                    // 페이지 이동 없이 a태그로 이동중이니, userId를 전역변수에 못 넣은 것.
+                    // 원래 페이징처리를 하는 프로젝트라면, userId를 전역변수로 설정해 여러군데에서 공통으로 쓰면 된다.
+                    // 수정하기 버튼에 수정할 항목의 userId를 클래스값으로 넣어주기.
+                    goUpdateButton.classList.add(userId);
+                    // 삭제하기 버튼도 삭제할 항목의 userId를 클래스값으로 넣어주기.
+                    deleteButton.classList.add(userId);
+
+                    // 목록으로 버튼 보이게 하기
+                    goListButton.style.display = "inline-block";
+                    // 수정하기 버튼 보이게 하기
+                    goUpdateButton.style.display = "inline-block";
+                    // 삭제하기 버튼 보이게 하기
+                    deleteButton.style.display = "inline-block";
+
+                    tbody.innerHTML = await userService.read(
+                        userId,
+                        userLayout.showUser
+                    );
+                }
+            });
+        };
+
+        const writeButtonClickEvent = async (e) => {
+            // 사용자가 화면에 입력한 정보 가져오기
+            const name = document.getElementById("name").value;
+            const street = document.getElementById("street").value;
+            const suite = document.getElementById("suite").value;
+            const city = document.getElementById("city").value;
+            const zipcode = document.getElementById("zipcode").value;
+
+            // 객체화
+            const createdUser = {
+                name: name,
+                street: street,
+                suite: suite,
+                city: city,
+                zipcode: zipcode,
+            };
+
+            // 서버에 전달해서 회원을 추가하고,
+            // 새롭게 추가된 회원 정보를 tr태그 문자열 값으로 전달받는다.
+            const newText = await userService.create(
+                createdUser,
+                userLayout.showCreatedUser
+            );
+
+            // 전체 목록
+            const text = await userService.findAll(userLayout.showList);
+
+            // 화면 출력
+            // 전체 목록 출력
+            tbody.innerHTML = text;
+            // 그 뒤에 새롭게 추가된 회원 출력
+            tbody.innerHTML += newText;
+        };
+
+        // 리팩토링
+        listButton.addEventListener("click", listButtonClickEvent);
+        writeButton.addEventListener("click", writeButtonClickEvent);
+        goListButton.addEventListener("click", goListButtonClickEvent);
+        goUpdateButton.addEventListener("click", goUpdateButtonClickEvent);
+        updateButton.addEventListener("click", updateClickEvent);
+        deleteButton.addEventListener("click", deleteClickEvent);
+    </script>
+</html>

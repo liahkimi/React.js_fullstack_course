@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종합 실습 02</title>
+    <style>
+        table {
+            width: 800px;
+            margin: 0 auto;
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 1px solid gray;
+        }
+
+        table.post-detail-table {
+            display: none;
+        }
+
+        #go-list {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button>데이터 가져오기</button>
+    <button id="go-list">목록으로</button>
+    <div>
+        <form action="" name="post-form" style="text-align: center;">
+            <input type="hidden" name="userId" value="2">
+            <input type="text" name="title" placeholder="제목">
+            <textarea name="body" cols="20" rows="5"></textarea>
+            <button type="button" id="done">완료</button>
+        </form>
+    </div>
+    <table class="post-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+            </tr>
+        <thead>
+        <tbody></tbody>
+    </table>
+    <table class="post-detail-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>body</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+<script src="service02.js"></script>
+<script src="layout02.js"></script>
+<script>
+
+    // 삭제 테스트
+    // postService.remove(5);
+    
+    // 수정 테스트
+    // postService.update({
+    //     id: 3,
+    //     title: '수정된 제목',
+    //     body: '수정된 내용',
+    //     userId: 1
+    // });
+
+
+    const button = document.querySelector("button");
+    const doneButton = document.getElementById("done");
+    const goListButton = document.getElementById("go-list");
+    const postForm = document['post-form'];
+    const tbody = document.querySelector("table.post-table tbody");
+    const tablePost = document.querySelector("table.post-table");
+    const tablePostDetail = document.querySelector("table.post-detail-table");
+
+    const doneButtonClickEvent = async (e) => {
+        const userId = postForm.userId.value;
+        const title = postForm.title.value;
+        const body = postForm.body.value;
+
+        const post = {
+            userId: userId,
+            title: title,
+            body: body
+        }
+
+        await postService.create(post);
+        await postService.findAll(postLayout.showList);
+    }
+
+    const goListButtonClickEvent = (e) => {
+        e.target.style.display = "none";
+        tablePostDetail.style.display = "none";
+        tablePost.style.display = "table";
+        
+        postService.findAll(postLayout.showList);
+    }
+
+    doneButton.addEventListener("click", doneButtonClickEvent);
+
+    const buttonClickEvent = (e) => {
+        postService.findAll(postLayout.showList);
+    }
+
+    button.addEventListener("click", buttonClickEvent);
+
+    tbody.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(e.target.classList[0] === 'go-detail'){
+            const postId = e.target.getAttribute("href");
+
+            goListButton.style.display = "inline-block";
+
+            tablePost.style.display = "none";
+            tablePostDetail.style.display = "table";
+            postService.read(postId, postLayout.showPost);
+        }
+    });
+
+    goListButton.addEventListener("click", goListButtonClickEvent);
+</script>
+</html>

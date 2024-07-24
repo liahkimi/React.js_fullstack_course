@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슬라이드 배너</title>
+    <link rel="stylesheet" href="banner.css">
+</head>
+<body>
+    <section class="container">
+        <div class="banner">
+            <div>
+                <img src="images/001.png">
+            </div>
+            <div>
+                <img src="images/002.png">
+            </div>
+            <div>
+                <img src="images/003.png">
+            </div>
+            <div>
+                <img src="images/004.png">
+            </div>
+            <div>
+                <img src="images/005.png">
+            </div>
+            <div>
+                <img src="images/006.png">
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    // const div = document.querySelector("div.banner");
+    // let count = 0;
+    // setInterval(() => {
+    //     count ++;
+    //     count === 6 && (count = 0);
+    //     div.style.transition = `transform 0.5s`;
+    //     div.style.transform = `translate(${-2000 * count}px)`;
+    // }, 2000);
+
+    // 무한 슬라이드
+    const lastBanner = document.createElement("div");
+    const banner = document.querySelector("div.banner");
+    let count = 0;
+
+    lastBanner.innerHTML = `<img src="images/001.png">`;
+    banner.appendChild(lastBanner);
+
+    setInterval(() => {
+        count ++;
+        banner.style.transition = `transform 0.5s`;
+        banner.style.transform = `translate(${-2000 * count}px)`;
+
+        if(count === 6){
+            setTimeout(() => {
+                banner.style.transition = `transform 0s`;
+                banner.style.transform = `translate(0px)`;
+            }, 500);
+            count = 0;
+        }
+    }, 2000);
+
+    // 이전, 다음 버튼
+</script>
+</html>

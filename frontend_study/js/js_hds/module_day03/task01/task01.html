@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종합 실습 01</title>
+    <style>
+        table, div {
+            width: 800px;
+            margin: 0 auto;
+            border: 1px solid gray;
+            border-collapse: collapse;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        input {
+            width: 130px;
+        }
+
+        td, th {
+            border: 1px solid gray;
+        }
+
+        /* 아래의 버튼들은 목록페이지에서 보여지지 않는 버튼이다. */
+        #go-list, #go-update, #update, #delete {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button id="list-button">데이터 가져오기</button>
+    <button id="write-button">데이터 추가하기</button>
+    <button id="go-list">목록으로</button>
+    <button id="go-update">수정하기</button>
+    <button id="update">수정완료</button>
+    <button id="delete">삭제하기</button>
+    <div>
+        <input type="text" id="name" placeholder="이름">
+        <input type="text" id="city" placeholder="시.도">
+        <input type="text" id="street" placeholder="구.군.동">
+        <input type="text" id="suite" placeholder="상세주소2">
+        <input type="text" id="zipcode" placeholder="우편주소">
+    </div>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>street</th>
+                <th>suite</th>
+                <th>city</th>
+                <th>zipcode</th>
+            </tr>
+        <thead>
+        <tbody></tbody>
+    </table>
+</body>
+<script src="service01.js"></script>
+<script src="layout01.js"></script>
+<script>
+    const listButton = document.getElementById("list-button");
+    const writeButton = document.getElementById("write-button");
+    const tbody = document.querySelector("table.user-table tbody");
+    const goListButton = document.getElementById("go-list");
+    const goUpdateButton = document.getElementById("go-update");
+    const updateButton = document.getElementById("update");
+    const deleteButton = document.getElementById("delete");
+    
+    const updateClickEvent = async (e) => {
+        const keys = ['name', 'street', 'suite', 'city', 'zipcode']
+        const tds = document.querySelectorAll("td");
+        const user = {};
+
+        // tr태그 안에 td태그가 6개있다.
+        tds.forEach((td, i) => {
+            if(i == 0){
+                user.userId = td.innerText
+                return;
+            }
+            const value = td.querySelector('input').value
+            user[keys[i - 1]] = value;
+        });
+        userService.update(user)
+    }
+
+    const goUpdateButtonClickEvent = async (e) => {
+        const userId = e.target.classList[0];
+
+        // 수정하기
+        e.target.style.display = "none";
+        // 수정완료
+        updateButton.style.display = "inline-block";
+        
+        tbody.innerHTML = await userService.read(userId, userLayout.updateUser);
+    }
+
+    const goListButtonClickEvent = async (e) => {
+        // 목록으로 버튼 숨기기
+        e.target.style.display = "none";
+
+        // 전체 목록
+        const text = await userService.findAll(userLayout.showList);
+        
+        // 화면 출력
+        // 전체 목록 출력
+        tbody.innerHTML = text;
+    }
+
+    const listButtonClickEvent = async (e) => {
+        const text = await userService.findAll(userLayout.showList);
+
+        tbody.innerHTML = text;
+        
+        // 이벤트 위임
+        tbody.addEventListener("click", async (e) => {
+            // 기존 이벤트는 제거
+            e.preventDefault();
+            // 클릭된 객체의 클래스명이 'go-detail'이라면(a 태그라면), 
+            if(e.target.classList[0] === 'go-detail'){
+                // a태그가 가지고 있는 href의 값이 바로 서버에 전달해야 할 회원의 번호
+                const userId = e.target.getAttribute("href");
+                goUpdateButton.classList.add(userId);
+                
+                // 목록으로 버튼 보이게 하기
+                goListButton.style.display = "inline-block";
+                // 수정하기 버튼 보이게 하기
+                goUpdateButton.style.display = "inline-block";
+                // 삭제하기 버튼 보이게 하기
+                deleteButton.style.display = "inline-block";
+
+                tbody.innerHTML = await userService.read(userId, userLayout.showUser);
+            }
+        });
+    }
+
+    const writeButtonClickEvent = async (e) => {
+        // 사용자가 화면에 입력한 정보 가져오기
+        const name = document.getElementById("name").value;
+        const street = document.getElementById("street").value;
+        const suite = document.getElementById("suite").value;
+        const city = document.getElementById("city").value;
+        const zipcode = document.getElementById("zipcode").value;
+
+        // 객체화
+        const createdUser = {
+            name: name,
+            street: street,
+            suite: suite,
+            city: city,
+            zipcode: zipcode
+        }
+
+        // 서버에 전달해서 회원을 추가하고,
+        // 새롭게 추가된 회원 정보를 tr태그 문자열 값으로 전달받는다.
+        const newText = await userService.create(createdUser, userLayout.showCreatedUser)
+        
+        // 전체 목록
+        const text = await userService.findAll(userLayout.showList);
+        
+        // 화면 출력
+        // 전체 목록 출력
+        tbody.innerHTML = text;
+        // 그 뒤에 새롭게 추가된 회원 출력
+        tbody.innerHTML += newText;
+    }
+
+
+    // 리팩토링
+    listButton.addEventListener("click", listButtonClickEvent);
+    writeButton.addEventListener("click", writeButtonClickEvent);
+    goListButton.addEventListener("click", goListButtonClickEvent);
+    goUpdateButton.addEventListener("click", goUpdateButtonClickEvent);
+    updateButton.addEventListener("click", updateClickEvent);
+</script>
+</html>

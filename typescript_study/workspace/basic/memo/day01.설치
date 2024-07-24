@@ -1,0 +1,28 @@
+1. ts 설치
+> yarn add typescript --dev
+> npx ts --init
+
+2. 와치모드 설치
+> npx tsc -w (와치모드)
+
+3. tslint : typescript 구문 오류 등 오류 검사를 해주는 패키지
+> 새로 터미널 열고
+> yarn add tslint --dev
+
+4. > yarn add tslint-config-airbnb
+
+5. tslint config 파일 설치
+> npx tslint --init
+
+6. tslint config 파일 extends 부분 수정
+    "extends": [
+        "tslint-config-airbnb"
+    ],
+7. > yarn add global ts-node @types/node
+
+8. 한 파일만 번역(와치모드)하는 컴파일 명령어
+> 와치모드 끄고
+> npx tsc basic.ts (파일 이름)
+
+9. 컴파일된 js 실행
+> node 파일명.js

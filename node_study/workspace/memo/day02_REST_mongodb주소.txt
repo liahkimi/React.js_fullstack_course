@@ -1,0 +1,30 @@
+mongodb+srv://app:1234@app.yk55qkd.mongodb.net/
+
+query란?
+	- 데이터베이스에서 원하는 내용을 가져오기 위해 몇개의 코드나 키를 통해 검색하는 것
+
+REST API
+	- REST API는 HTTP 요청을 통해 웹에서 데이터 항목(리소스)을 처리하는 방법입니다. 
+	리소스는 URL을 통해 식별됩니다. 예를 들어, http://example.com/users는 "사용자"라는 리소스를 나타냅니다.
+	
+	REST API에서 수행할 수 있는 작업(CRUD 작업)은 다음과 같습니다:
+	// CRUD : HTTP메서드  매핑(RESTful API 디자인에 사용)
+	- Create : POST (추가)
+	- Read : GET (조회)
+	- Update : PUT (수정)
+	- Delete : DELETE (삭제)
+ 
+CORS(Cross-Origin Resource Sharing)
+	프로토콜, 도메인, 포트 번호가 하나라도 다르면 발생한다.
+	세션을 탈취하여 악의적으로 정보를 추출하거나, 다른 사람의 정보를 입력하는 등
+	공격을 할 수 있기 때문에, 브라우저에서 이를 보호하고 Cross-Origin이 필요한 경우 따로 설정이 필요하다. 
+	서버가 응답할 때 브라우저가 요청한 Origin과 응답한 헤더 Acess-Control-Request-Headers의 값을 비교하여
+	유효한 요청이라면 리소스를 응답한다.
+	만약 유효하지 않은 요청이라면 브라우저에서 이를 막고 에러가 발생한다.
+
+
+
+
+
+
+
